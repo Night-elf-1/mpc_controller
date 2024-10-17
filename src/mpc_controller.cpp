@@ -8,5 +8,10 @@ namespace shibo{
         void MPC_controller::init(){
 
         }
+
+        bool MPC_controller::compute_mpc(const VehicleState &vehicle_states, const PathData &ref_data, const ControlCommand &cmd){
+            
+        }
+
     }
 }

@@ -15,6 +15,8 @@ namespace shibo{
                 ~MPC_controller();
 
                 void init();
+
+                bool compute_mpc(const VehicleState &vehicle_states, const PathData &ref_data, const ControlCommand &cmd);
             private:
         };
     }
