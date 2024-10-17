@@ -1,0 +1,5 @@
+/home/hamster/mycode/mpc_controller/build/CMakeFiles/edit_cache.dir
+/home/hamster/mycode/mpc_controller/build/CMakeFiles/rebuild_cache.dir
+/home/hamster/mycode/mpc_controller/build/src/CMakeFiles/main.dir
+/home/hamster/mycode/mpc_controller/build/src/CMakeFiles/edit_cache.dir
+/home/hamster/mycode/mpc_controller/build/src/CMakeFiles/rebuild_cache.dir
