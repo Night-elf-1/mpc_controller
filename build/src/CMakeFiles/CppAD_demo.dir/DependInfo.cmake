@@ -8,8 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/hamster/mycode/mpc_controller/src/main.cpp" "src/CMakeFiles/main.dir/main.cpp.o" "gcc" "src/CMakeFiles/main.dir/main.cpp.o.d"
-  "/home/hamster/mycode/mpc_controller/src/mpc_controller.cpp" "src/CMakeFiles/main.dir/mpc_controller.cpp.o" "gcc" "src/CMakeFiles/main.dir/mpc_controller.cpp.o.d"
+  "/home/hamster/mycode/mpc_controller/src/testcppad/CppAD_demo.cpp" "src/CMakeFiles/CppAD_demo.dir/testcppad/CppAD_demo.cpp.o" "gcc" "src/CMakeFiles/CppAD_demo.dir/testcppad/CppAD_demo.cpp.o.d"
   )
 
 # Targets to which this target links.

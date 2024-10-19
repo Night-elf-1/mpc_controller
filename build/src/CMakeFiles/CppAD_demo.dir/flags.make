@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/hamster/mycode/mpc_controller/src/../include
+CXX_INCLUDES = 
 
-CXX_FLAGS = 
+CXX_FLAGS = -std=gnu++14
 

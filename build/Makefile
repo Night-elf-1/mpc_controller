@@ -117,17 +117,30 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named main
+# Target rules for targets named CppAD_demo
 
 # Build rule for target.
-main: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main
-.PHONY : main
+CppAD_demo: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CppAD_demo
+.PHONY : CppAD_demo
 
 # fast build rule for target.
-main/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/build
-.PHONY : main/fast
+CppAD_demo/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/CppAD_demo.dir/build.make src/CMakeFiles/CppAD_demo.dir/build
+.PHONY : CppAD_demo/fast
+
+#=============================================================================
+# Target rules for targets named cppad_ipopt_demo
+
+# Build rule for target.
+cppad_ipopt_demo: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cppad_ipopt_demo
+.PHONY : cppad_ipopt_demo
+
+# fast build rule for target.
+cppad_ipopt_demo/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/cppad_ipopt_demo.dir/build.make src/CMakeFiles/cppad_ipopt_demo.dir/build
+.PHONY : cppad_ipopt_demo/fast
 
 # Help Target
 help:
@@ -137,7 +150,8 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... main"
+	@echo "... CppAD_demo"
+	@echo "... cppad_ipopt_demo"
 .PHONY : help
 
 

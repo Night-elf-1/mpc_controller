@@ -117,66 +117,80 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-src/CMakeFiles/main.dir/rule:
-	cd /home/hamster/mycode/mpc_controller/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/main.dir/rule
-.PHONY : src/CMakeFiles/main.dir/rule
+src/CMakeFiles/CppAD_demo.dir/rule:
+	cd /home/hamster/mycode/mpc_controller/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/CppAD_demo.dir/rule
+.PHONY : src/CMakeFiles/CppAD_demo.dir/rule
 
 # Convenience name for target.
-main: src/CMakeFiles/main.dir/rule
-.PHONY : main
+CppAD_demo: src/CMakeFiles/CppAD_demo.dir/rule
+.PHONY : CppAD_demo
 
 # fast build rule for target.
-main/fast:
-	cd /home/hamster/mycode/mpc_controller/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/build
-.PHONY : main/fast
+CppAD_demo/fast:
+	cd /home/hamster/mycode/mpc_controller/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/CppAD_demo.dir/build.make src/CMakeFiles/CppAD_demo.dir/build
+.PHONY : CppAD_demo/fast
 
-main.o: main.cpp.o
-.PHONY : main.o
+# Convenience name for target.
+src/CMakeFiles/cppad_ipopt_demo.dir/rule:
+	cd /home/hamster/mycode/mpc_controller/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/cppad_ipopt_demo.dir/rule
+.PHONY : src/CMakeFiles/cppad_ipopt_demo.dir/rule
 
-# target to build an object file
-main.cpp.o:
-	cd /home/hamster/mycode/mpc_controller/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/main.cpp.o
-.PHONY : main.cpp.o
+# Convenience name for target.
+cppad_ipopt_demo: src/CMakeFiles/cppad_ipopt_demo.dir/rule
+.PHONY : cppad_ipopt_demo
 
-main.i: main.cpp.i
-.PHONY : main.i
+# fast build rule for target.
+cppad_ipopt_demo/fast:
+	cd /home/hamster/mycode/mpc_controller/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cppad_ipopt_demo.dir/build.make src/CMakeFiles/cppad_ipopt_demo.dir/build
+.PHONY : cppad_ipopt_demo/fast
 
-# target to preprocess a source file
-main.cpp.i:
-	cd /home/hamster/mycode/mpc_controller/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/main.cpp.i
-.PHONY : main.cpp.i
-
-main.s: main.cpp.s
-.PHONY : main.s
-
-# target to generate assembly for a file
-main.cpp.s:
-	cd /home/hamster/mycode/mpc_controller/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/main.cpp.s
-.PHONY : main.cpp.s
-
-mpc_controller.o: mpc_controller.cpp.o
-.PHONY : mpc_controller.o
+testcppad/CppAD_demo.o: testcppad/CppAD_demo.cpp.o
+.PHONY : testcppad/CppAD_demo.o
 
 # target to build an object file
-mpc_controller.cpp.o:
-	cd /home/hamster/mycode/mpc_controller/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/mpc_controller.cpp.o
-.PHONY : mpc_controller.cpp.o
+testcppad/CppAD_demo.cpp.o:
+	cd /home/hamster/mycode/mpc_controller/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/CppAD_demo.dir/build.make src/CMakeFiles/CppAD_demo.dir/testcppad/CppAD_demo.cpp.o
+.PHONY : testcppad/CppAD_demo.cpp.o
 
-mpc_controller.i: mpc_controller.cpp.i
-.PHONY : mpc_controller.i
+testcppad/CppAD_demo.i: testcppad/CppAD_demo.cpp.i
+.PHONY : testcppad/CppAD_demo.i
 
 # target to preprocess a source file
-mpc_controller.cpp.i:
-	cd /home/hamster/mycode/mpc_controller/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/mpc_controller.cpp.i
-.PHONY : mpc_controller.cpp.i
+testcppad/CppAD_demo.cpp.i:
+	cd /home/hamster/mycode/mpc_controller/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/CppAD_demo.dir/build.make src/CMakeFiles/CppAD_demo.dir/testcppad/CppAD_demo.cpp.i
+.PHONY : testcppad/CppAD_demo.cpp.i
 
-mpc_controller.s: mpc_controller.cpp.s
-.PHONY : mpc_controller.s
+testcppad/CppAD_demo.s: testcppad/CppAD_demo.cpp.s
+.PHONY : testcppad/CppAD_demo.s
 
 # target to generate assembly for a file
-mpc_controller.cpp.s:
-	cd /home/hamster/mycode/mpc_controller/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.dir/build.make src/CMakeFiles/main.dir/mpc_controller.cpp.s
-.PHONY : mpc_controller.cpp.s
+testcppad/CppAD_demo.cpp.s:
+	cd /home/hamster/mycode/mpc_controller/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/CppAD_demo.dir/build.make src/CMakeFiles/CppAD_demo.dir/testcppad/CppAD_demo.cpp.s
+.PHONY : testcppad/CppAD_demo.cpp.s
+
+testcppad/cppad_ipopt_demo.o: testcppad/cppad_ipopt_demo.cpp.o
+.PHONY : testcppad/cppad_ipopt_demo.o
+
+# target to build an object file
+testcppad/cppad_ipopt_demo.cpp.o:
+	cd /home/hamster/mycode/mpc_controller/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cppad_ipopt_demo.dir/build.make src/CMakeFiles/cppad_ipopt_demo.dir/testcppad/cppad_ipopt_demo.cpp.o
+.PHONY : testcppad/cppad_ipopt_demo.cpp.o
+
+testcppad/cppad_ipopt_demo.i: testcppad/cppad_ipopt_demo.cpp.i
+.PHONY : testcppad/cppad_ipopt_demo.i
+
+# target to preprocess a source file
+testcppad/cppad_ipopt_demo.cpp.i:
+	cd /home/hamster/mycode/mpc_controller/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cppad_ipopt_demo.dir/build.make src/CMakeFiles/cppad_ipopt_demo.dir/testcppad/cppad_ipopt_demo.cpp.i
+.PHONY : testcppad/cppad_ipopt_demo.cpp.i
+
+testcppad/cppad_ipopt_demo.s: testcppad/cppad_ipopt_demo.cpp.s
+.PHONY : testcppad/cppad_ipopt_demo.s
+
+# target to generate assembly for a file
+testcppad/cppad_ipopt_demo.cpp.s:
+	cd /home/hamster/mycode/mpc_controller/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/cppad_ipopt_demo.dir/build.make src/CMakeFiles/cppad_ipopt_demo.dir/testcppad/cppad_ipopt_demo.cpp.s
+.PHONY : testcppad/cppad_ipopt_demo.cpp.s
 
 # Help Target
 help:
@@ -186,13 +200,14 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... main"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
-	@echo "... mpc_controller.o"
-	@echo "... mpc_controller.i"
-	@echo "... mpc_controller.s"
+	@echo "... CppAD_demo"
+	@echo "... cppad_ipopt_demo"
+	@echo "... testcppad/CppAD_demo.o"
+	@echo "... testcppad/CppAD_demo.i"
+	@echo "... testcppad/CppAD_demo.s"
+	@echo "... testcppad/cppad_ipopt_demo.o"
+	@echo "... testcppad/cppad_ipopt_demo.i"
+	@echo "... testcppad/cppad_ipopt_demo.s"
 .PHONY : help
 
 
