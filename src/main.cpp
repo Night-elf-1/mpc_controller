@@ -23,10 +23,12 @@ int main(int argc, char const *argv[])
     for (int i = 0; i < param.NP; ++i)
     {
         Eigen::MatrixXd xref = referenceTrajectory.xref;
+        Eigen::MatrixXd dref = referenceTrajectory.dref;
         Eigen::VectorXd xref_i = xref.col(i);
         Eigen::VectorXd ref_delata = referenceTrajectory.dref.col(i);
 
-        std::vector<double> control_result = mpc.calculate_linearMPC(xref_i, initial_x, ref_delata, agv);
+        // std::vector<double> control_result = mpc.calculate_linearMPC(xref_i, initial_x, ref_delata, agv);
+        std::vector<double> control_result = mpc.calculate_linearMPC(xref, initial_x, dref, agv);
 
         agv.updatestate(control_result[0], control_result[1]);
 
