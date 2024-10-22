@@ -39,8 +39,8 @@ struct PathPoint
     double x;
     double y;
     double yaw;
-    double kappa;
-    double velocity;
+    double k;
+    double v;
     double acceleration;
 };
 

@@ -32,7 +32,7 @@ namespace shibo{
             public:
                 std::vector<double> calculate_linearMPC(Eigen::MatrixXd xref, Eigen::Vector3d inital_x, Eigen::MatrixXd dref, KinematicModel agv_model);
                 
-                void calculate_linearMPC_new(Eigen::MatrixXd xref, Eigen::Vector3d inital_x, Eigen::MatrixXd dref, KinematicModel agv_model);
+                void calculate_linearMPC_new(std::vector<PathPoint> &trajectory, Eigen::Vector3d inital_x, Eigen::MatrixXd dref, KinematicModel agv_model);
             private:
         };
     }

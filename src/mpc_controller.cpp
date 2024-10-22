@@ -47,7 +47,7 @@ std::vector<double> shibo::controller::MPC_controller::calculate_linearMPC(Eigen
     
 }
 
-void shibo::controller::MPC_controller::calculate_linearMPC_new(Eigen::MatrixXd xref, Eigen::Vector3d inital_x, Eigen::MatrixXd dref, KinematicModel agv_model){
+void shibo::controller::MPC_controller::calculate_linearMPC_new(std::vector<PathPoint> &trajectory, Eigen::Vector3d inital_x, Eigen::MatrixXd dref, KinematicModel agv_model){
     const double row = 10;
     Eigen::Vector2d u_min(-0.2, -0.54);
     Eigen::Vector2d u_max(0.2, 0.332);
@@ -59,6 +59,7 @@ void shibo::controller::MPC_controller::calculate_linearMPC_new(Eigen::MatrixXd 
     // std::vector<double> track_error = MyReferencePath::CalTrackError(inital_x);
     double min_ind = track_error[3], yaw_r = track_error[2], lat_error = track_error[0];
     double v_r = dref[min_ind];
+    double v_r = ;
     double delta_f_r = dref[min_ind];           // 待修改
 
     Eigen::Matrix3d Ad;             // Ad矩阵
