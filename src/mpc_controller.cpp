@@ -112,5 +112,31 @@ void shibo::controller::MPC_controller::calculate_linearMPC_new(Eigen::MatrixXd 
         A_e.block(i * NU, 0, NU, (i + 1) * NU) = Eigen::MatrixXd::Identity(NU, NU);
     }
 
-    
+    Eigen::VectorXd U_t = Eigen::VectorXd::Ones(NC) * U;
+    // 计算约束矩阵
+    Eigen::VectorXd Umax = Eigen::VectorXd::Ones(NC * NU) * u_max;
+    Eigen::VectorXd Umin = Eigen::VectorXd::Ones(NC * NU) * u_min;
+    Eigen::VectorXd delta_Umin = Eigen::VectorXd::Ones(NC * NU) * delta_umin;
+    Eigen::VectorXd delta_Umax = Eigen::VectorXd::Ones(NC * NU) * delta_umax;
+
+    osqp::OSQPSettings settings;
+    osqp::OSQPData data;
+
+    data.P = csc_matrix(H);
+    data.q = g;
+    data.A = csc_matrix(A_e);
+    data.l = delta_Umin;
+    data.u = delta_Umax;
+
+    osqp::OSQPSolver solver;
+    solver.init(data, settings);
+    solver.solve();
+
+    Eigen::VectorXd solution = solver.result();
+
+    Eigen::VectorXd delta_U = solution.head(NU);
+    U = U + delta_U;
+
+    double v_real = U(0) + v_r;
+    double delta_real = U(1) + delta_f_r;
 }
