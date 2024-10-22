@@ -20,7 +20,7 @@ class MyReferencePath{
     public:
         MyReferencePath();
 
-        std::vector<double> CalTrackError();
+        std::vector<double> CalTrackError(Eigen::Vector3d inital_x);
 
         refTraj CalRefTrajectory(std::vector<double> agv_state, parameters param, double dl=1.0);
 };

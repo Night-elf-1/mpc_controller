@@ -14,21 +14,22 @@ namespace shibo{
     namespace controller{
         class MPC_controller{
             public:
-                MPC_controller(int nx, int nu, int np):NX(nx), NU(nu), NP(np){};
+                MPC_controller(int nx, int nu, int np, int nc):NX(nx), NU(nu), NP(np), NC(nc){};
                 ~MPC_controller();
 
-                int NX, NU, NP;
+                int NX, NU, NP, NC;
+                Eigen::Vector2d U(0.01, 0.01);
                 Eigen::MatrixXd R = Eigen::MatrixXd::Identity(NU, NU);
-                Eigen::MatrixXd Rd = Eigen::MatrixXd::Identity(NU, NU);
+                Eigen::MatrixXd RB = Eigen::MatrixXd::Identity(NC * NU, NC * NU);
                 Eigen::MatrixXd Q = Eigen::MatrixXd::Identity(NX, NX);
-                Eigen::MatrixXd Qd = Q;
+                Eigen::MatrixXd QB = 100 * Eigen::MatrixXd::Identity(NP * NX, NP * NX);
 
                 const double MAX_STEER = 10 * (M_PI / 180);                 // [rad]
                 const double MAX_VEL = 0.9;                                 // [m/s]
             public:
                 std::vector<double> calculate_linearMPC(Eigen::MatrixXd xref, Eigen::Vector3d inital_x, Eigen::MatrixXd dref, KinematicModel agv_model);
                 
-                bool compute_mpc(const VehicleState &vehicle_states, const PathData &ref_data, const ControlCommand &cmd);
+                void calculate_linearMPC_new(Eigen::MatrixXd xref, Eigen::Vector3d inital_x, Eigen::MatrixXd dref, KinematicModel agv_model);
             private:
         };
     }
