@@ -2,6 +2,7 @@
 
 int main(int argc, char const *argv[])
 {
+    double end_x = 50, end_y = 50;
     parameters param;
     //mpc_controller(param.NX, param.NU, param.NP);
     shibo::controller::MPC_controller mpc(param.NX, param.NU, param.NP, param.NC);
@@ -15,7 +16,7 @@ int main(int argc, char const *argv[])
     KinematicModel agv(initial_x(0), initial_x(1), initial_x(2), 0.7, L, dt);   // 初始化运动学模型 x y yaw v L dt
 
     std::vector<double> agv_state = {0.0, 0.0, 0.0, 0.0};                       // 起始点
-    MyReferencePath refpath;
+    MyReferencePath refpath(initial_x, end_x, end_y);
     refTraj referenceTrajectory = refpath.CalRefTrajectory(agv_state, param, 1.0);
 
     std::vector<double> x_history, y_history;
@@ -28,7 +29,7 @@ int main(int argc, char const *argv[])
         //std::vector<double> control_result = mpc.calculate_linearMPC(xref, initial_x, dref, agv);
         mpc.calculate_linearMPC_new(xref, initial_x, dref, agv);
 
-        agv.updatestate(control_result[0], control_result[1]);
+        // agv.updatestate(control_result[0], control_result[1]);
 
         const auto state = agv.getstate();
         initial_x << state[0], state[1], state[2];

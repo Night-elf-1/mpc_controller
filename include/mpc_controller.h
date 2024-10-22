@@ -3,7 +3,10 @@
 # include <memory>
 # include <string>
 # include <osqp/osqp.h>
+# include <Eigen/Dense>
+# include <vector>
 
+#include "OsqpEigen/OsqpEigen.h"
 # include "eigen3/Eigen/Core"
 # include "common.h"
 # include "mpc_osqp.h"

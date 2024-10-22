@@ -54,7 +54,9 @@ void shibo::controller::MPC_controller::calculate_linearMPC_new(Eigen::MatrixXd 
     Eigen::Vector2d delta_umin(-0.05, -0.64);
     Eigen::Vector2d delta_umax(0.05, 0.64);
 
-    std::vector<double> track_error = MyReferencePath::CalTrackError(inital_x);
+    MyReferencePath myreferencepath_;
+    std::vector<double> track_error = myreferencepath_.CalTrackError(inital_x);
+    // std::vector<double> track_error = MyReferencePath::CalTrackError(inital_x);
     double min_ind = track_error[3], yaw_r = track_error[2], lat_error = track_error[0];
     double v_r = dref[min_ind];
     double delta_f_r = dref[min_ind];           // 待修改
@@ -108,7 +110,7 @@ void shibo::controller::MPC_controller::calculate_linearMPC_new(Eigen::MatrixXd 
 
     // 约束
     Eigen::MatrixXd A_e = Eigen::MatrixXd::Zero(NC * NU, NC * NU);            // A_I对应Ae矩阵
-    for (int i = 0; i < Nc; ++i) {
+    for (int i = 0; i < NC; ++i) {
         A_e.block(i * NU, 0, NU, (i + 1) * NU) = Eigen::MatrixXd::Identity(NU, NU);
     }
 

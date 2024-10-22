@@ -18,7 +18,7 @@ struct refTraj{
 
 class MyReferencePath{
     public:
-        MyReferencePath();
+        MyReferencePath(Eigen::Vector3d &inital_x, const double &end_x, const double &end_y);
 
         std::vector<double> CalTrackError(Eigen::Vector3d inital_x);
 

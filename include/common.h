@@ -13,7 +13,6 @@ using namespace std;
 #define MIN_SPEED 0.05
 #define MAX_ACCEL 1.0
 
-#define W 0.814
 #define reartowheel 0.15
 #define wheel_len 0.3
 #define wheel_width 0.1

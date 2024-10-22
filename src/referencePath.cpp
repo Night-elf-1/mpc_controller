@@ -1,7 +1,7 @@
 #include "referencePath.h"
 
-MyReferencePath::MyReferencePath(){
-
+MyReferencePath::MyReferencePath(Eigen::Vector3d &inital_x, const double &end_x, const double &end_y){
+    
 }
 
 refTraj MyReferencePath::CalRefTrajectory(std::vector<double> agv_state, parameters param, double dl=1.0){
