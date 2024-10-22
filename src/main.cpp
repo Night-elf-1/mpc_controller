@@ -35,24 +35,24 @@ int main(int argc, char const *argv[])
     }
                                                                                                                                                                                                                                                       
 
-    for (int i = 0; i < param.NP; ++i)
-    {
-        Eigen::MatrixXd xref = referenceTrajectory.xref;
-        Eigen::MatrixXd dref = referenceTrajectory.dref;
-        Eigen::VectorXd xref_i = xref.col(i);
-        Eigen::VectorXd ref_delata = referenceTrajectory.dref.col(i);
+    // for (int i = 0; i < param.NP; ++i)
+    // {
+    //     Eigen::MatrixXd xref = referenceTrajectory.xref;
+    //     Eigen::MatrixXd dref = referenceTrajectory.dref;
+    //     Eigen::VectorXd xref_i = xref.col(i);
+    //     Eigen::VectorXd ref_delata = referenceTrajectory.dref.col(i);
 
-        // std::vector<double> control_result = mpc.calculate_linearMPC(xref_i, initial_x, ref_delata, agv);
-        std::vector<double> control_result = mpc.calculate_linearMPC(xref, initial_x, dref, agv);
+    //     // std::vector<double> control_result = mpc.calculate_linearMPC(xref_i, initial_x, ref_delata, agv);
+    //     std::vector<double> control_result = mpc.calculate_linearMPC(xref, initial_x, dref, agv);
 
-        agv.updatestate(control_result[0], control_result[1]);
+    //     agv.updatestate(control_result[0], control_result[1]);
 
-        x_history.push_back(agv.getstate()[0]);             // 存储行驶过的路径点
-        y_history.push_back(agv.getstate()[1]);
+    //     x_history.push_back(agv.getstate()[0]);             // 存储行驶过的路径点
+    //     y_history.push_back(agv.getstate()[1]);
 
-        const auto state = agv.getstate();
-        initial_x << state[0], state[1], state[2];
-    }
+    //     const auto state = agv.getstate();
+    //     initial_x << state[0], state[1], state[2];
+    // }
     
     
 

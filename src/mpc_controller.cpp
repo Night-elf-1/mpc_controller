@@ -103,7 +103,7 @@ void shibo::controller::MPC_controller::calculate_linearMPC_new(Eigen::MatrixXd 
     }
 
     // H 矩阵
-    Eigen::MatrixXd H = Z.transpose() * QB * THETA + RB;
+    Eigen::MatrixXd H = Z.transpose() * QB * Z + RB;
     Eigen::VectorXd g = kesi.transpose() * W.transpose() * QB * Z;
 
     // 约束
