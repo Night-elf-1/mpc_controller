@@ -47,20 +47,27 @@ std::vector<double> shibo::controller::MPC_controller::calculate_linearMPC(Eigen
     
 }
 
-void shibo::controller::MPC_controller::calculate_linearMPC_new(std::vector<PathPoint> &trajectory, Eigen::Vector3d inital_x, Eigen::MatrixXd dref, KinematicModel agv_model){
+std::tuple<double, double> shibo::controller::MPC_controller::calculate_linearMPC_new(std::vector<PathPoint> &trajectory, Eigen::Vector3d inital_x, int min_index, double min_errors, KinematicModel agv_model){
     const double row = 10;
     Eigen::Vector2d u_min(-0.2, -0.54);
     Eigen::Vector2d u_max(0.2, 0.332);
     Eigen::Vector2d delta_umin(-0.05, -0.64);
     Eigen::Vector2d delta_umax(0.05, 0.64);
 
-    MyReferencePath myreferencepath_;
-    std::vector<double> track_error = myreferencepath_.CalTrackError(inital_x);
+    // MyReferencePath myreferencepath_;
+    // std::vector<double> track_error = myreferencepath_.CalTrackError(inital_x);
     // std::vector<double> track_error = MyReferencePath::CalTrackError(inital_x);
-    double min_ind = track_error[3], yaw_r = track_error[2], lat_error = track_error[0];
-    double v_r = dref[min_ind];
-    double v_r = ;
-    double delta_f_r = dref[min_ind];           // 待修改
+
+    double yaw_r = trajectory[min_index].yaw;
+    double v_r = trajectory[min_index].v;
+    double k_r = trajectory[min_index].k;
+    double lat_error = min_errors;
+    double delta_f_r = atan2(3.7 * k_r, 1);
+
+    // double min_ind = track_error[3], yaw_r = track_error[2], lat_error = track_error[0];
+    // double v_r = dref[min_ind];
+    // double v_r = ;
+    // double delta_f_r = dref[min_ind];
 
     Eigen::Matrix3d Ad;             // Ad矩阵
     Ad << 1, 0, -v_r * sin(yaw_r) * agv_model.mykinematic.dt,
@@ -142,4 +149,6 @@ void shibo::controller::MPC_controller::calculate_linearMPC_new(std::vector<Path
 
     double v_real = U(0) + v_r;
     double delta_real = U(1) + delta_f_r;
+
+    return std::make_tuple(v_real, delta_real);
 }

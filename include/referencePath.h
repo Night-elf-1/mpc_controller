@@ -32,4 +32,7 @@ class MyReferencePath{
         double calculateCurvature(double yaw_diff, double distance);
         
         double calculateVelocity(double curvature);
+
+        std::pair<double, int> calcNearestIndexAndLateralError(double current_x, double current_y, 
+                                                       const std::vector<PathPoint>& ref_path);
 };

@@ -3,6 +3,8 @@
 int main(int argc, char const *argv[])
 {
     double end_x = 50, end_y = 50;
+    int min_ind;
+    bool finish_ = true;
     parameters param;
     //mpc_controller(param.NX, param.NU, param.NP);
     shibo::controller::MPC_controller mpc(param.NX, param.NU, param.NP, param.NC);
@@ -18,45 +20,30 @@ int main(int argc, char const *argv[])
     std::vector<double> agv_state = {0.0, 0.0, 0.0, 0.0};                       // 起始点
     std::vector<PathPoint> trajectory;
     MyReferencePath refpath(initial_x, end_x, end_y, trajectory);
-    // refTraj referenceTrajectory = refpath.CalRefTrajectory(agv_state, param, 1.0);
 
     std::vector<double> x_history, y_history;
 
-    while (referenceTrajectory.ind < referenceTrajectory.xref.cols())
+    while ( finish_ )
     {
-        Eigen::MatrixXd xref = referenceTrajectory.xref;
-        Eigen::MatrixXd dref = referenceTrajectory.dref;
+        auto lateral_and_index = refpath.calcNearestIndexAndLateralError(initial_x(0), initial_x(1), trajectory);
+        std::cout << "最近点索引: " << lateral_and_index.second << std::endl;
+        std::cout << "横向距离: " << lateral_and_index.first << std::endl;
 
-        //std::vector<double> control_result = mpc.calculate_linearMPC(xref, initial_x, dref, agv);
-        mpc.calculate_linearMPC_new(trajectory, initial_x, dref, agv);
+        auto [v_real, delta_real] = mpc.calculate_linearMPC_new(trajectory, initial_x, lateral_and_index.second, lateral_and_index.first, agv);
 
-        // agv.updatestate(control_result[0], control_result[1]);
+        agv.updatestate(v_real, delta_real);
+        x_history.push_back(agv.getstate()[0]);
+        y_history.push_back(agv.getstate()[1]);
 
         const auto state = agv.getstate();
         initial_x << state[0], state[1], state[2];
+
+        if(lateral_and_index.second < trajectory.size() - 1){
+            continue;
+        }else{
+            finish_ = false;
+        }
     }
-                                                                                                                                                                                                                                                      
-
-    // for (int i = 0; i < param.NP; ++i)
-    // {
-    //     Eigen::MatrixXd xref = referenceTrajectory.xref;
-    //     Eigen::MatrixXd dref = referenceTrajectory.dref;
-    //     Eigen::VectorXd xref_i = xref.col(i);
-    //     Eigen::VectorXd ref_delata = referenceTrajectory.dref.col(i);
-
-    //     // std::vector<double> control_result = mpc.calculate_linearMPC(xref_i, initial_x, ref_delata, agv);
-    //     std::vector<double> control_result = mpc.calculate_linearMPC(xref, initial_x, dref, agv);
-
-    //     agv.updatestate(control_result[0], control_result[1]);
-
-    //     x_history.push_back(agv.getstate()[0]);             // 存储行驶过的路径点
-    //     y_history.push_back(agv.getstate()[1]);
-
-    //     const auto state = agv.getstate();
-    //     initial_x << state[0], state[1], state[2];
-    // }
-    
-    
 
     return 0;
 }

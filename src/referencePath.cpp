@@ -62,3 +62,33 @@ std::vector<PathPoint> MyReferencePath::generateTrajectory(double x_start, doubl
 
     return path_;
 }
+
+std::pair<double, int> MyReferencePath::calcNearestIndexAndLateralError(double current_x, double current_y, const std::vector<PathPoint>& ref_path){
+    int nearest_index = -1;
+    double min_distance = std::numeric_limits<double>::max();
+    double lateral_error = 0.0;
+
+    for (size_t i = 0; i < ref_path.size(); ++i) {
+        double dx = current_x - ref_path[i].x;
+        double dy = current_y - ref_path[i].y;
+        
+        // 计算欧氏距离
+        double distance = std::hypot(dx, dy);
+
+        // 如果找到更近的点，更新最近点索引和最小距离
+        if (distance < min_distance) {
+            min_distance = distance;
+            nearest_index = i;
+
+            // 计算法向量的横向距离（假设 ref_path 提供航向角 yaw）
+            double ref_yaw = ref_path[i].yaw;
+            double normal_x = -std::sin(ref_yaw);  // 法向量的 X 方向分量
+            double normal_y = std::cos(ref_yaw);   // 法向量的 Y 方向分量
+
+            // 计算当前点到参考点的向量和法向量的点积（即横向误差）
+            lateral_error = dx * normal_x + dy * normal_y;
+        }
+    }
+
+    return {lateral_error, nearest_index};
+}
