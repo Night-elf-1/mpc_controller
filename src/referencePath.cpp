@@ -4,9 +4,11 @@ MyReferencePath::MyReferencePath(Eigen::Vector3d &inital_x, const double &end_x,
     trajectory = generateTrajectory(inital_x(0), inital_x(1), inital_x(2), end_x, end_y);
 }
 
-refTraj MyReferencePath::CalRefTrajectory(std::vector<double> agv_state, parameters param, double dl=1.0){
+MyReferencePath::~MyReferencePath(){}
 
-}
+// refTraj MyReferencePath::CalRefTrajectory(std::vector<double> agv_state, parameters param, double dl=1.0){
+
+// }
 
 std::vector<double> MyReferencePath::CalTrackError(Eigen::Vector3d inital_x){
     double x = inital_x(0), y = inital_x(1);

@@ -28,11 +28,6 @@ namespace shibo{
                 Eigen::MatrixXd Q;
                 Eigen::MatrixXd QB;
 
-                // Eigen::MatrixXd R = Eigen::MatrixXd::Identity(NU, NU);
-                // Eigen::MatrixXd RB = Eigen::MatrixXd::Identity(NC * NU, NC * NU);
-                // Eigen::MatrixXd Q = Eigen::MatrixXd::Identity(NX, NX);
-                // Eigen::MatrixXd QB = 100 * Eigen::MatrixXd::Identity(NP * NX, NP * NX);
-
                 const double MAX_STEER = 10 * (M_PI / 180);                 // [rad]
                 const double MAX_VEL = 0.9;                                 // [m/s]
             public:

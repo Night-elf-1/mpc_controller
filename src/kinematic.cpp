@@ -12,6 +12,8 @@
 
 KinematicModel::KinematicModel(double x, double y, double psi, double v, double L, double dt):mykinematic{x, y, psi, v, L, dt}{};
 
+KinematicModel::~KinematicModel(){}
+
 void KinematicModel::updatestate(double accel, double delta_f){
     mykinematic.x = mykinematic.x + mykinematic.v * cos(mykinematic.psi)*mykinematic.dt;
     mykinematic.y = mykinematic.y + mykinematic.v * sin(mykinematic.psi)*mykinematic.dt;

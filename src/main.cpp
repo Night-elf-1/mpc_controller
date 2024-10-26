@@ -6,11 +6,10 @@ int main(int argc, char const *argv[])
     int min_ind;
     bool finish_ = true;
     parameters param;
-    //mpc_controller(param.NX, param.NU, param.NP);
-    shibo::controller::MPC_controller mpc(param.NX, param.NU, param.NP, param.NC);
-    //shibo::controller::MPC_controller(param.NX, param.NU, param.NP);            // 初始化mpc参数
 
-    Eigen::Vector3d initial_x(param.NX);                                        // 初始化agv初始状态 x y yaw
+    shibo::controller::MPC_controller mpc(param.NX, param.NU, param.NP, param.NC);
+
+    Eigen::Vector3d initial_x;                                        // 初始化agv初始状态 x y yaw
     initial_x << 0.0, 0.0, 0.0;
 
     double dt = 0.1;
@@ -22,6 +21,8 @@ int main(int argc, char const *argv[])
     MyReferencePath refpath(initial_x, end_x, end_y, trajectory);
 
     std::vector<double> x_history, y_history;
+
+    int count = 0;
 
     while ( finish_ )
     {
@@ -39,6 +40,7 @@ int main(int argc, char const *argv[])
         initial_x << state[0], state[1], state[2];
 
         if(lateral_and_index.second < trajectory.size() - 1){
+            // count += 1;
             continue;
         }else{
             finish_ = false;

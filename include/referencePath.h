@@ -23,7 +23,7 @@ class MyReferencePath{
 
         std::vector<double> CalTrackError(Eigen::Vector3d inital_x);
 
-        refTraj CalRefTrajectory(std::vector<double> agv_state, parameters param, double dl=1.0);
+        // refTraj CalRefTrajectory(std::vector<double> agv_state, parameters param, double dl=1.0);
 
         std::vector<PathPoint> generateTrajectory(double x_start, double y_start, double yaw_start, double x_end, double y_end);
 

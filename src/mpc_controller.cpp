@@ -7,66 +7,60 @@ std::tuple<double, double> shibo::controller::MPC_controller::calculate_linearMP
     Eigen::Vector2d delta_umin(-0.05, -0.64);
     Eigen::Vector2d delta_umax(0.05, 0.64);
 
-    // MyReferencePath myreferencepath_;
-    // std::vector<double> track_error = myreferencepath_.CalTrackError(inital_x);
-    // std::vector<double> track_error = MyReferencePath::CalTrackError(inital_x);
-
     double yaw_r = trajectory[min_index].yaw;
     double v_r = trajectory[min_index].v;
     double k_r = trajectory[min_index].k;
     double lat_error = min_errors;
     double delta_f_r = atan2(3.7 * k_r, 1);
 
-    // double min_ind = track_error[3], yaw_r = track_error[2], lat_error = track_error[0];
-    // double v_r = dref[min_ind];
-    // double v_r = ;
-    // double delta_f_r = dref[min_ind];
-
-    Eigen::Matrix3d Ad;             // Ad矩阵
+    Eigen::Matrix3d Ad(3, 3);             // Ad矩阵
     Ad << 1, 0, -v_r * sin(yaw_r) * agv_model.mykinematic.dt,
          0, 1, v_r * cos(yaw_r) * agv_model.mykinematic.dt,
          0, 0, 1;
-    std::cout << "Ad: \n" << Ad << std::endl;
+    // std::cout << "Ad: \n" << Ad << std::endl;
 
     Eigen::MatrixXd Bd(3, 2);       // Bd矩阵
     Bd << cos(yaw_r) * agv_model.mykinematic.dt, 0,
           sin(yaw_r) * agv_model.mykinematic.dt, 0,
           (tan(delta_f_r) * agv_model.mykinematic.dt / agv_model.mykinematic.L) , (v_r * agv_model.mykinematic.dt / (agv_model.mykinematic.L * std::pow(cos(delta_f_r), 2)));
-    std::cout << "Bd: \n" << Bd << std::endl;
+    // std::cout << "Bd: \n" << Bd << std::endl;
 
     // 状态空间方程的相关矩阵
     Eigen::VectorXd kesi(NX + NU);             // 新状态变量kesi  3 + 2
     Eigen::Vector3d x_r(trajectory[min_index].x, trajectory[min_index].y, yaw_r);
     kesi.head(NX) = inital_x - x_r;        
     kesi.tail(NU) = U;                          // U为初始控制量
+    // cout << "kesi = " << kesi << endl;
 
     Eigen::MatrixXd A_3 = Eigen::MatrixXd::Zero(NX + NU, NX + NU);              // A矩阵为A3矩阵
     A_3.topLeftCorner(NX, NX) = Ad;
     A_3.topRightCorner(NX, NU) = Bd;
     A_3.bottomRightCorner(NU, NU) = Eigen::MatrixXd::Identity(NU, NU);       // 往A3矩阵中添加值
-    std::cout << "A_3: \n" << A_3 << std::endl;
+    // std::cout << "A_3: \n" << A_3 << std::endl;
 
     Eigen::MatrixXd B_3 = Eigen::MatrixXd::Zero(NX + NU, NU);                       // B为B3矩阵
     B_3.topLeftCorner(NX, NU) = Bd;                                    // 往B3矩阵里面添加Bd矩阵和I矩阵(单位矩阵)
     B_3.bottomRightCorner(NU, NU) = Eigen::MatrixXd::Identity(NU, NU);
-    std::cout << "B_3: \n" << B_3 << std::endl;
+    // std::cout << "B_3: \n" << B_3 << std::endl;
 
     // C 矩阵
     Eigen::MatrixXd C = Eigen::MatrixXd::Zero(NX, NX + NU);               // 设置C矩阵
     C.topLeftCorner(NX, NX) = Eigen::MatrixXd::Identity(NX, NX);          // C=[E 0]
-    std::cout << "C: \n" << C << std::endl;
+    // std::cout << "C: \n" << C << std::endl;
 
     Eigen::MatrixXd W = Eigen::MatrixXd::Zero(NP * NX, NX + NU);       // PHI为W矩阵 
     for (int i = 0; i < NP; ++i) {
         Eigen::MatrixXd result = A_3;
+        //Eigen::MatrixXd result = Eigen::MatrixXd::Identity(NX + NU, NX + NU);
         for (int j = 0; j < i; ++j)
         {
             result = result * A_3;
         }
         
         W.middleRows(i * NX, NX) = C * result;
+        //W.middleRows(i * NX, NX) = C * result.topLeftCorner(NX, NX + NU);
     }
-    std::cout << "W: \n" << W << std::endl;
+    // std::cout << "W: \n" << W << std::endl;
 
     Eigen::MatrixXd Z = Eigen::MatrixXd::Zero(NP * NX, NC * NU);          // THETA矩阵为Z矩阵
     for (int i = 0; i < NP; ++i) {
@@ -82,24 +76,64 @@ std::tuple<double, double> shibo::controller::MPC_controller::calculate_linearMP
             }
         }
     }
+    // cout << " Z = " << Z << endl;
 
     // H 矩阵
     Eigen::MatrixXd H = Z.transpose() * QB * Z + RB;
     Eigen::VectorXd g = kesi.transpose() * W.transpose() * QB * Z;
+    // cout << "QB = " << QB << endl;
+    // cout << "RB = " << RB << endl;
+    // cout << "H = " << H << endl;
+    // cout << endl;
+    // cout << "g = " << g << endl;
 
     // 约束
     Eigen::MatrixXd A_e = Eigen::MatrixXd::Zero(NC * NU, NC * NU);            // A_I对应Ae矩阵
     for (int i = 0; i < NC; ++i) {
-        A_e.block(i * NU, 0, NU, (i + 1) * NU) = Eigen::MatrixXd::Identity(NU, NU);
+        A_e.block(i * NU, 0, NU, (i + 1) * NU) = Eigen::MatrixXd::Identity(NU, NU*(i+1));
+        //cout << 1 << endl;
+    }
+    // cout << "A_e = " << A_e << endl;
+
+    // Eigen::VectorXd U_t = Eigen::VectorXd::Ones(NC) * U;
+    Eigen::VectorXd U_t = Eigen::VectorXd::Zero(NC * NU);
+    for (int i = 0; i < NC; ++i) {
+        U_t.segment(i * NU, NU) = U; // 复制 U 到 U_t 的每个区段
+    }
+    // cout << "u_t = " << U_t << endl;
+
+    // 计算约束矩阵
+    // Eigen::VectorXd Umax = Eigen::VectorXd::Ones(NC * NU) * u_max;
+    Eigen::VectorXd Umax = Eigen::VectorXd::Ones(NC * NU);
+    for (int i = 0; i < NC; ++i) {
+        Umax.segment(i * NU, NU) = u_max;
     }
 
-    Eigen::VectorXd U_t = Eigen::VectorXd::Ones(NC) * U;
-    // 计算约束矩阵
-    Eigen::VectorXd Umax = Eigen::VectorXd::Ones(NC * NU) * u_max;
-    Eigen::VectorXd Umin = Eigen::VectorXd::Ones(NC * NU) * u_min;
-    Eigen::VectorXd delta_Umin = Eigen::VectorXd::Ones(NC * NU) * delta_umin;
-    Eigen::VectorXd delta_Umax = Eigen::VectorXd::Ones(NC * NU) * delta_umax;
+    // Eigen::VectorXd Umin = Eigen::VectorXd::Ones(NC * NU) * u_min;
+    Eigen::VectorXd Umin = Eigen::VectorXd::Ones(NC * NU);
+    for (int i = 0; i < NC; ++i) {
+        Umin.segment(i * NU, NU) = u_min;
+    }
 
+    // Eigen::VectorXd delta_Umin = Eigen::VectorXd::Ones(NC * NU) * delta_umin;
+    Eigen::VectorXd delta_Umin = Eigen::VectorXd::Ones(NC * NU);
+    for (int i = 0; i < NC; ++i) {
+        delta_Umin.segment(i * NU, NU) = delta_umin;
+    }
+
+    // Eigen::VectorXd delta_Umax = Eigen::VectorXd::Ones(NC * NU) * delta_umax;
+    Eigen::VectorXd delta_Umax = Eigen::VectorXd::Ones(NC * NU);
+    for (int i = 0; i < NC; ++i) {
+        delta_Umax.segment(i * NU, NU) = delta_umax;
+    }
+
+    // cout << "Umin = " << endl;
+    // cout << Umin << endl;
+    // cout << "delta_Umin = " << endl;
+    // cout << delta_Umin << endl;
+    // cout << "delta_Umax = " << endl;
+    // cout << delta_Umax << endl;
+    
     OsqpEigen::Solver solver;
     int num_variables = H.rows();
     int num_constraints = A_e.rows();
@@ -131,12 +165,18 @@ std::tuple<double, double> shibo::controller::MPC_controller::calculate_linearMP
     Eigen::VectorXd solution = solver.getSolution();
 
     // 更新控制量U
+    // cout << "上一时刻U = " << endl;
+    // cout << U << endl;
     Eigen::VectorXd delta_U = solution.head(U.size());
     U += delta_U;
+    // cout << "下一时刻U = " << endl;
+    // cout << U << endl;
 
     // 计算实际的控制量
     double v_real = U(0) + v_r;
     double delta_real = U(1) + delta_f_r;
+    // cout << "real_v = " << v_real << endl;
+    // cout << "real_delta = " << delta_real << endl;
 
     return std::make_tuple(v_real, delta_real);
 }
