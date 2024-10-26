@@ -1,3 +1,5 @@
+#ifndef COMMON_H  // 如果没有定义 COMMON_H
+#define COMMON_H  // 定义 COMMON_H
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -5,21 +7,9 @@
 
 using namespace std;
 
-//#define MAX_STEER 10 * (M_PI / 180)
-#define MAX_ITER 3
-#define DU_TH 0.1
-#define MAX_TIME 5000
-#define MAX_SPEED 0.9
-#define MIN_SPEED 0.05
-#define MAX_ACCEL 1.0
-
-#define reartowheel 0.15
-#define wheel_len 0.3
-#define wheel_width 0.1
-
 struct parameters{
     int L = 3.7;
-    int NX = 3, NU = 2, NP = 60, NC = 30;
+    int NX = 3, NU = 2, NP = 6, NC = 3;
     double dt = 0.1, row = 10;
 };
 
@@ -61,3 +51,4 @@ struct ControlCommand
     double acc;
 };
 
+#endif

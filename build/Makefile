@@ -117,30 +117,113 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named CppAD_demo
+# Target rules for targets named main
 
 # Build rule for target.
-CppAD_demo: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CppAD_demo
-.PHONY : CppAD_demo
+main: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main
+.PHONY : main
 
 # fast build rule for target.
-CppAD_demo/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/CppAD_demo.dir/build.make src/CMakeFiles/CppAD_demo.dir/build
-.PHONY : CppAD_demo/fast
+main/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
+.PHONY : main/fast
 
-#=============================================================================
-# Target rules for targets named cppad_ipopt_demo
+src/kinematic.o: src/kinematic.cpp.o
+.PHONY : src/kinematic.o
 
-# Build rule for target.
-cppad_ipopt_demo: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 cppad_ipopt_demo
-.PHONY : cppad_ipopt_demo
+# target to build an object file
+src/kinematic.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/kinematic.cpp.o
+.PHONY : src/kinematic.cpp.o
 
-# fast build rule for target.
-cppad_ipopt_demo/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/cppad_ipopt_demo.dir/build.make src/CMakeFiles/cppad_ipopt_demo.dir/build
-.PHONY : cppad_ipopt_demo/fast
+src/kinematic.i: src/kinematic.cpp.i
+.PHONY : src/kinematic.i
+
+# target to preprocess a source file
+src/kinematic.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/kinematic.cpp.i
+.PHONY : src/kinematic.cpp.i
+
+src/kinematic.s: src/kinematic.cpp.s
+.PHONY : src/kinematic.s
+
+# target to generate assembly for a file
+src/kinematic.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/kinematic.cpp.s
+.PHONY : src/kinematic.cpp.s
+
+src/main.o: src/main.cpp.o
+.PHONY : src/main.o
+
+# target to build an object file
+src/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
+
+src/main.i: src/main.cpp.i
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
+
+src/main.s: src/main.cpp.s
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
+
+src/mpc_controller.o: src/mpc_controller.cpp.o
+.PHONY : src/mpc_controller.o
+
+# target to build an object file
+src/mpc_controller.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/mpc_controller.cpp.o
+.PHONY : src/mpc_controller.cpp.o
+
+src/mpc_controller.i: src/mpc_controller.cpp.i
+.PHONY : src/mpc_controller.i
+
+# target to preprocess a source file
+src/mpc_controller.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/mpc_controller.cpp.i
+.PHONY : src/mpc_controller.cpp.i
+
+src/mpc_controller.s: src/mpc_controller.cpp.s
+.PHONY : src/mpc_controller.s
+
+# target to generate assembly for a file
+src/mpc_controller.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/mpc_controller.cpp.s
+.PHONY : src/mpc_controller.cpp.s
+
+src/referencePath.o: src/referencePath.cpp.o
+.PHONY : src/referencePath.o
+
+# target to build an object file
+src/referencePath.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/referencePath.cpp.o
+.PHONY : src/referencePath.cpp.o
+
+src/referencePath.i: src/referencePath.cpp.i
+.PHONY : src/referencePath.i
+
+# target to preprocess a source file
+src/referencePath.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/referencePath.cpp.i
+.PHONY : src/referencePath.cpp.i
+
+src/referencePath.s: src/referencePath.cpp.s
+.PHONY : src/referencePath.s
+
+# target to generate assembly for a file
+src/referencePath.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/referencePath.cpp.s
+.PHONY : src/referencePath.cpp.s
 
 # Help Target
 help:
@@ -150,8 +233,19 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... CppAD_demo"
-	@echo "... cppad_ipopt_demo"
+	@echo "... main"
+	@echo "... src/kinematic.o"
+	@echo "... src/kinematic.i"
+	@echo "... src/kinematic.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
+	@echo "... src/mpc_controller.o"
+	@echo "... src/mpc_controller.i"
+	@echo "... src/mpc_controller.s"
+	@echo "... src/referencePath.o"
+	@echo "... src/referencePath.i"
+	@echo "... src/referencePath.s"
 .PHONY : help
 
 

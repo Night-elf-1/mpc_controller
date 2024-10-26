@@ -10,7 +10,7 @@ int main(int argc, char const *argv[])
     shibo::controller::MPC_controller mpc(param.NX, param.NU, param.NP, param.NC);
     //shibo::controller::MPC_controller(param.NX, param.NU, param.NP);            // 初始化mpc参数
 
-    Eigen::VectorXd initial_x(param.NX);                                        // 初始化agv初始状态 x y yaw
+    Eigen::Vector3d initial_x(param.NX);                                        // 初始化agv初始状态 x y yaw
     initial_x << 0.0, 0.0, 0.0;
 
     double dt = 0.1;

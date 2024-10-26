@@ -1,52 +1,5 @@
 #include "mpc_controller.h"
 
-std::vector<double> shibo::controller::MPC_controller::calculate_linearMPC(Eigen::MatrixXd xref, Eigen::Vector3d inital_x, Eigen::MatrixXd dref, KinematicModel agv_model){
-    int NX_mpc = xref.rows();                   // xref 和 dref初始化的矩阵大小为3行，4列和3列
-    int NU_mpc = dref.rows();
-    int NP_mpc = xref.cols() - 1;
-
-    Eigen::MatrixXd x(NX_mpc, NP_mpc + 1);              // 创建状态变量矩阵x，3行，4列
-    Eigen::MatrixXd u(NU_mpc, NP_mpc);                  // 创建控制矩阵，3行，3列
-    std::vector<Eigen::MatrixXd> A_vec, B_vec;
-
-    for (int i = 0; i < NP_mpc; ++i)
-    {
-        auto car_state_space = agv_model.statespace(dref(1, i), xref(2, i));    // 参数1：参考转角， 参数2：参考航向角
-        A_vec.push_back(car_state_space[0]);
-        B_vec.push_back(car_state_space[1]);
-    }
-    
-    Eigen::VectorXd cost(NP_mpc + 1);                   // 创建一个一维动态大小数组
-    std::vector<std::vector<int>> constrains;           // 创建二维的int类型数组
-
-    for (int i = 0; i < NP_mpc; ++i)
-    {
-        cost(i) += (u.col(i) - dref.col(i)).transpose() * R * (u.col(i) - dref.col(i));          // 计算目标函数的控制累加部分
-        if(i != 0) cost(i) += (x.col(i) - xref.col(i)).transpose() * Q * (x.col(i) - xref.col(i));
-
-        Eigen::MatrixXd A = A_vec[i];                       // 取出第i时刻的A B矩阵
-        Eigen::MatrixXd B = B_vec[i];
-
-        constrains.push_back({(i + 1)*NX_mpc, (i + 1)*NX_mpc + NX_mpc});
-        constrains.push_back( {i * NU_mpc, i * NU_mpc + NU_mpc} );
-
-        x.col(i + 1) = A * x.col(i) + B * (u.col(i) - dref.col(i));
-    }
-    cost(NP_mpc) = (x.col(NP_mpc) - xref.col(i)).transpose() * Qd * (x.col(NP_mpc) - xref.col(NP_mpc));         // 终端代价
-
-    x.col(0) = inital_x;                                    // 设置初始状态量
-    
-    Eigen::VectorXd lower_bound(NP_mpc * NU_mpc);           // 3 * 3
-    Eigen::VectorXd upper_bound(NP_mpc * NU_mpc);
-
-    for (int i = 0; i < NP_mpc; ++i)
-    {
-        lower_bound.segment(i * NU_mpc, NU_mpc) << -MAX_VEL, -MAX_STEER;            // 设置控制边界
-        upper_bound.segment(i * NU_mpc, NU_mpc) << MAX_VEL, MAX_STEER;
-    }
-    
-}
-
 std::tuple<double, double> shibo::controller::MPC_controller::calculate_linearMPC_new(std::vector<PathPoint> &trajectory, Eigen::Vector3d inital_x, int min_index, double min_errors, KinematicModel agv_model){
     const double row = 10;
     Eigen::Vector2d u_min(-0.2, -0.54);
@@ -73,15 +26,17 @@ std::tuple<double, double> shibo::controller::MPC_controller::calculate_linearMP
     Ad << 1, 0, -v_r * sin(yaw_r) * agv_model.mykinematic.dt,
          0, 1, v_r * cos(yaw_r) * agv_model.mykinematic.dt,
          0, 0, 1;
+    std::cout << "Ad: \n" << Ad << std::endl;
 
     Eigen::MatrixXd Bd(3, 2);       // Bd矩阵
     Bd << cos(yaw_r) * agv_model.mykinematic.dt, 0,
-         sin(yaw_r) * agv_model.mykinematic.dt, 0,
-         tan(delta_f_r) * agv_model.mykinematic.dt / agv_model.mykinematic.L, v_r * agv_model.mykinematic.dt / (agv_model.mykinematic.L * pow(cos(delta_f_r), 2));
+          sin(yaw_r) * agv_model.mykinematic.dt, 0,
+          (tan(delta_f_r) * agv_model.mykinematic.dt / agv_model.mykinematic.L) , (v_r * agv_model.mykinematic.dt / (agv_model.mykinematic.L * std::pow(cos(delta_f_r), 2)));
+    std::cout << "Bd: \n" << Bd << std::endl;
 
     // 状态空间方程的相关矩阵
-    Eigen::VectorXd kesi(NX + NU);             // 新状态变量kesi
-    Eigen::Vector3d x_r();
+    Eigen::VectorXd kesi(NX + NU);             // 新状态变量kesi  3 + 2
+    Eigen::Vector3d x_r(trajectory[min_index].x, trajectory[min_index].y, yaw_r);
     kesi.head(NX) = inital_x - x_r;        
     kesi.tail(NU) = U;                          // U为初始控制量
 
@@ -89,25 +44,41 @@ std::tuple<double, double> shibo::controller::MPC_controller::calculate_linearMP
     A_3.topLeftCorner(NX, NX) = Ad;
     A_3.topRightCorner(NX, NU) = Bd;
     A_3.bottomRightCorner(NU, NU) = Eigen::MatrixXd::Identity(NU, NU);       // 往A3矩阵中添加值
+    std::cout << "A_3: \n" << A_3 << std::endl;
 
     Eigen::MatrixXd B_3 = Eigen::MatrixXd::Zero(NX + NU, NU);                       // B为B3矩阵
     B_3.topLeftCorner(NX, NU) = Bd;                                    // 往B3矩阵里面添加Bd矩阵和I矩阵(单位矩阵)
     B_3.bottomRightCorner(NU, NU) = Eigen::MatrixXd::Identity(NU, NU);
+    std::cout << "B_3: \n" << B_3 << std::endl;
 
     // C 矩阵
     Eigen::MatrixXd C = Eigen::MatrixXd::Zero(NX, NX + NU);               // 设置C矩阵
     C.topLeftCorner(NX, NX) = Eigen::MatrixXd::Identity(NX, NX);          // C=[E 0]
+    std::cout << "C: \n" << C << std::endl;
 
     Eigen::MatrixXd W = Eigen::MatrixXd::Zero(NP * NX, NX + NU);       // PHI为W矩阵 
     for (int i = 0; i < NP; ++i) {
-        W.middleRows(i * NX, NX) = C * A_3.pow(i);
+        Eigen::MatrixXd result = A_3;
+        for (int j = 0; j < i; ++j)
+        {
+            result = result * A_3;
+        }
+        
+        W.middleRows(i * NX, NX) = C * result;
     }
+    std::cout << "W: \n" << W << std::endl;
 
     Eigen::MatrixXd Z = Eigen::MatrixXd::Zero(NP * NX, NC * NU);          // THETA矩阵为Z矩阵
     for (int i = 0; i < NP; ++i) {
         for (int j = 0; j < NC; ++j) {
             if (j <= i) {
-                Z.middleRows(i * NX, NX).middleCols(j * NU, NU) = C * A_3.pow(i - j) * B_3;
+                // 计算 A_3^(i-j)
+                Eigen::MatrixXd result = Eigen::MatrixXd::Identity(A_3.rows(), A_3.cols()); // 初始化为单位矩阵
+                for (int k = 0; k < (i - j); ++k) {
+                    result *= A_3; // 逐步累乘A_3
+                }
+
+                Z.middleRows(i * NX, NX).middleCols(j * NU, NU) = C * result * B_3;
             }
         }
     }
@@ -129,24 +100,41 @@ std::tuple<double, double> shibo::controller::MPC_controller::calculate_linearMP
     Eigen::VectorXd delta_Umin = Eigen::VectorXd::Ones(NC * NU) * delta_umin;
     Eigen::VectorXd delta_Umax = Eigen::VectorXd::Ones(NC * NU) * delta_umax;
 
-    osqp::OSQPSettings settings;
-    osqp::OSQPData data;
+    OsqpEigen::Solver solver;
+    int num_variables = H.rows();
+    int num_constraints = A_e.rows();
 
-    data.P = csc_matrix(H);
-    data.q = g;
-    data.A = csc_matrix(A_e);
-    data.l = delta_Umin;
-    data.u = delta_Umax;
+    solver.settings()->setVerbosity(false);
+    solver.settings()->setWarmStart(true);
+    solver.data()->setNumberOfVariables(num_variables);
+    solver.data()->setNumberOfConstraints(num_constraints);
 
-    osqp::OSQPSolver solver;
-    solver.init(data, settings);
-    solver.solve();
+    // 设置二次规划问题的矩阵和向量
+    Eigen::SparseMatrix<double> H_sparse = H.sparseView();
+    solver.data()->setHessianMatrix(H_sparse);  // H为稀疏矩阵
+    solver.data()->setGradient(g);                   // 线性项 g
 
-    Eigen::VectorXd solution = solver.result();
+    // 设置约束的矩阵和边界
+    Eigen::SparseMatrix<double> A_e_sparse = A_e.sparseView();
+    solver.data()->setLinearConstraintsMatrix(A_e_sparse);  // A为稀疏矩阵
+    solver.data()->setLowerBound(delta_Umin);                    // 下界
+    solver.data()->setUpperBound(delta_Umax);                    // 上界
 
-    Eigen::VectorXd delta_U = solution.head(NU);
-    U = U + delta_U;
+    // 初始化并求解问题
+    if (!solver.initSolver()) {
+        throw std::runtime_error("Solver initialization failed");
+    }
 
+    solver.solveProblem();
+
+    // 获取求解结果
+    Eigen::VectorXd solution = solver.getSolution();
+
+    // 更新控制量U
+    Eigen::VectorXd delta_U = solution.head(U.size());
+    U += delta_U;
+
+    // 计算实际的控制量
     double v_real = U(0) + v_r;
     double delta_real = U(1) + delta_f_r;
 
