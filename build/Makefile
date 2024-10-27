@@ -129,6 +129,19 @@ main/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
 
+#=============================================================================
+# Target rules for targets named testdraw
+
+# Build rule for target.
+testdraw: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 testdraw
+.PHONY : testdraw
+
+# fast build rule for target.
+testdraw/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testdraw.dir/build.make CMakeFiles/testdraw.dir/build
+.PHONY : testdraw/fast
+
 src/kinematic.o: src/kinematic.cpp.o
 .PHONY : src/kinematic.o
 
@@ -225,6 +238,30 @@ src/referencePath.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/referencePath.cpp.s
 .PHONY : src/referencePath.cpp.s
 
+src/test_matplotlib/testmatplotlib.o: src/test_matplotlib/testmatplotlib.cpp.o
+.PHONY : src/test_matplotlib/testmatplotlib.o
+
+# target to build an object file
+src/test_matplotlib/testmatplotlib.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testdraw.dir/build.make CMakeFiles/testdraw.dir/src/test_matplotlib/testmatplotlib.cpp.o
+.PHONY : src/test_matplotlib/testmatplotlib.cpp.o
+
+src/test_matplotlib/testmatplotlib.i: src/test_matplotlib/testmatplotlib.cpp.i
+.PHONY : src/test_matplotlib/testmatplotlib.i
+
+# target to preprocess a source file
+src/test_matplotlib/testmatplotlib.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testdraw.dir/build.make CMakeFiles/testdraw.dir/src/test_matplotlib/testmatplotlib.cpp.i
+.PHONY : src/test_matplotlib/testmatplotlib.cpp.i
+
+src/test_matplotlib/testmatplotlib.s: src/test_matplotlib/testmatplotlib.cpp.s
+.PHONY : src/test_matplotlib/testmatplotlib.s
+
+# target to generate assembly for a file
+src/test_matplotlib/testmatplotlib.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testdraw.dir/build.make CMakeFiles/testdraw.dir/src/test_matplotlib/testmatplotlib.cpp.s
+.PHONY : src/test_matplotlib/testmatplotlib.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -234,6 +271,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... main"
+	@echo "... testdraw"
 	@echo "... src/kinematic.o"
 	@echo "... src/kinematic.i"
 	@echo "... src/kinematic.s"
@@ -246,6 +284,9 @@ help:
 	@echo "... src/referencePath.o"
 	@echo "... src/referencePath.i"
 	@echo "... src/referencePath.s"
+	@echo "... src/test_matplotlib/testmatplotlib.o"
+	@echo "... src/test_matplotlib/testmatplotlib.i"
+	@echo "... src/test_matplotlib/testmatplotlib.s"
 .PHONY : help
 
 
