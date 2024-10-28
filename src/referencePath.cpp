@@ -92,5 +92,5 @@ std::pair<double, int> MyReferencePath::calcNearestIndexAndLateralError(double c
         }
     }
 
-    return {lateral_error, nearest_index};
+    return {min_distance, nearest_index};
 }

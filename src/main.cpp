@@ -1,4 +1,7 @@
 #include "mpc_controller.h"
+// #include "matplotlibcpp.h"
+
+// namespace plt = matplotlibcpp;
 
 int main(int argc, char const *argv[])
 {
@@ -20,6 +23,13 @@ int main(int argc, char const *argv[])
     std::vector<PathPoint> trajectory;
     MyReferencePath refpath(initial_x, end_x, end_y, trajectory);
 
+    std::vector<double> x, y;
+    for (int i = 0; i < trajectory.size(); i++)
+    {
+        x.push_back(trajectory[i].x);
+        y.push_back(trajectory[i].y);
+    }
+
     std::vector<double> x_history, y_history;
 
     int count = 0;
@@ -27,8 +37,8 @@ int main(int argc, char const *argv[])
     while ( finish_ )
     {
         auto lateral_and_index = refpath.calcNearestIndexAndLateralError(initial_x(0), initial_x(1), trajectory);
-        std::cout << "最近点索引: " << lateral_and_index.second << std::endl;
-        std::cout << "横向距离: " << lateral_and_index.first << std::endl;
+        // std::cout << "最近点索引: " << lateral_and_index.second << std::endl;
+        // std::cout << "横向距离: " << lateral_and_index.first << std::endl;
 
         auto [v_real, delta_real] = mpc.calculate_linearMPC_new(trajectory, initial_x, lateral_and_index.second, lateral_and_index.first, agv);
 
@@ -38,6 +48,8 @@ int main(int argc, char const *argv[])
 
         const auto state = agv.getstate();
         initial_x << state[0], state[1], state[2];
+
+        cout << "实时的坐标点 X = " << initial_x(0) << " y = "<< initial_x(1) << " 最近点索引: " << lateral_and_index.second << " 横向距离: " << lateral_and_index.first << " 真实控制量 v:" << v_real << " delta: " << delta_real << endl;
 
         if(lateral_and_index.second < trajectory.size() - 1){
             // count += 1;

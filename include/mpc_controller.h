@@ -9,7 +9,6 @@
 #include "OsqpEigen/OsqpEigen.h"
 # include "eigen3/Eigen/Core"
 # include "common.h"
-# include "mpc_osqp.h"
 # include "kinematic.h"
 # include "referencePath.h"
 

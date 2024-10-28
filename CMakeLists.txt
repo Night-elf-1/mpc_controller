@@ -39,7 +39,10 @@ target_link_libraries(main
     Eigen3::Eigen
     osqp::osqp
     OsqpEigen::OsqpEigen
+    ${PYTHON_LIBRARIES}
     python3.10.so
+    pthread
+    dl
 )
 
 target_link_libraries(testdraw

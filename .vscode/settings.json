@@ -70,7 +70,8 @@
         "cfenv": "cpp",
         "typeindex": "cpp",
         "codecvt": "cpp",
-        "future": "cpp"
+        "future": "cpp",
+        "variant": "cpp"
     },
     "python.autoComplete.extraPaths": [
         "/opt/ros/humble/lib/python3.10/site-packages",
