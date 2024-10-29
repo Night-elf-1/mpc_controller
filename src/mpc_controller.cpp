@@ -3,7 +3,7 @@
 std::tuple<double, double> shibo::controller::MPC_controller::calculate_linearMPC_new(std::vector<PathPoint> &trajectory, Eigen::Vector3d inital_x, int min_index, double min_errors, KinematicModel agv_model){
     const double row = 10;
     Eigen::Vector2d u_min(-0.2, -0.54);
-    Eigen::Vector2d u_max(0.2, 0.332);
+    Eigen::Vector2d u_max(0.2, 0.54);
     Eigen::Vector2d delta_umin(-0.05, -0.64);
     Eigen::Vector2d delta_umax(0.05, 0.64);
 
@@ -81,11 +81,6 @@ std::tuple<double, double> shibo::controller::MPC_controller::calculate_linearMP
     // H 矩阵
     Eigen::MatrixXd H = Z.transpose() * QB * Z + RB;
     Eigen::VectorXd g = kesi.transpose() * W.transpose() * QB * Z;
-    // cout << "QB = " << QB << endl;
-    // cout << "RB = " << RB << endl;
-    // cout << "H = " << H << endl;
-    // cout << endl;
-    // cout << "g = " << g << endl;
 
     // 约束
     Eigen::MatrixXd A_e = Eigen::MatrixXd::Zero(NC * NU, NC * NU);            // A_I对应Ae矩阵
@@ -127,13 +122,6 @@ std::tuple<double, double> shibo::controller::MPC_controller::calculate_linearMP
         delta_Umax.segment(i * NU, NU) = delta_umax;
     }
 
-    // cout << "Umin = " << endl;
-    // cout << Umin << endl;
-    // cout << "delta_Umin = " << endl;
-    // cout << delta_Umin << endl;
-    // cout << "delta_Umax = " << endl;
-    // cout << delta_Umax << endl;
-    
     OsqpEigen::Solver solver;
     int num_variables = H.rows();
     int num_constraints = A_e.rows();
@@ -165,18 +153,12 @@ std::tuple<double, double> shibo::controller::MPC_controller::calculate_linearMP
     Eigen::VectorXd solution = solver.getSolution();
 
     // 更新控制量U
-    // cout << "上一时刻U = " << endl;
-    // cout << U << endl;
     Eigen::VectorXd delta_U = solution.head(U.size());
     U += delta_U;
-    // cout << "下一时刻U = " << endl;
-    // cout << U << endl;
 
     // 计算实际的控制量
     double v_real = U(0) + v_r;
     double delta_real = U(1) + delta_f_r;
-    // cout << "real_v = " << v_real << endl;
-    // cout << "real_delta = " << delta_real << endl;
 
     return std::make_tuple(v_real, delta_real);
 }

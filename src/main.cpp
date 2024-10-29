@@ -1,7 +1,7 @@
 #include "mpc_controller.h"
-// #include "matplotlibcpp.h"
+#include "matplotlibcpp.h"
 
-// namespace plt = matplotlibcpp;
+namespace plt = matplotlibcpp;
 
 int main(int argc, char const *argv[])
 {
@@ -17,9 +17,9 @@ int main(int argc, char const *argv[])
 
     double dt = 0.1;
     double L = 3.7;
-    KinematicModel agv(initial_x(0), initial_x(1), initial_x(2), 0.7, L, dt);   // 初始化运动学模型 x y yaw v L dt
+    KinematicModel agv(initial_x(0), initial_x(1), initial_x(2), 0.0, L, dt);   // 初始化运动学模型 x y yaw v L dt
 
-    std::vector<double> agv_state = {0.0, 0.0, 0.0, 0.0};                       // 起始点
+    std::vector<double> agv_state = {0.0, 3.0, 0.0, 0.0};                       // 起始点
     std::vector<PathPoint> trajectory;
     MyReferencePath refpath(initial_x, end_x, end_y, trajectory);
 
@@ -34,11 +34,12 @@ int main(int argc, char const *argv[])
 
     int count = 0;
 
+    plt::figure_size(800, 600);  // 设置窗口大小
+    plt::plot(x, y, "b--");      // 绘制参考路径
+
     while ( finish_ )
     {
         auto lateral_and_index = refpath.calcNearestIndexAndLateralError(initial_x(0), initial_x(1), trajectory);
-        // std::cout << "最近点索引: " << lateral_and_index.second << std::endl;
-        // std::cout << "横向距离: " << lateral_and_index.first << std::endl;
 
         auto [v_real, delta_real] = mpc.calculate_linearMPC_new(trajectory, initial_x, lateral_and_index.second, lateral_and_index.first, agv);
 
@@ -49,7 +50,16 @@ int main(int argc, char const *argv[])
         const auto state = agv.getstate();
         initial_x << state[0], state[1], state[2];
 
-        cout << "实时的坐标点 X = " << initial_x(0) << " y = "<< initial_x(1) << " 最近点索引: " << lateral_and_index.second << " 横向距离: " << lateral_and_index.first << " 真实控制量 v:" << v_real << " delta: " << delta_real << endl;
+        // cout << "实时的坐标点 X = " << initial_x(0) << "  y = "<< initial_x(1) << "  最近点索引 = " << lateral_and_index.second << "  横向距离 = " << lateral_and_index.first << "  真实控制量v = " << v_real << "  delta = " << delta_real << endl;
+
+        // 更新绘图
+        plt::clf();                // 清除当前图像
+        plt::plot(x, y, "b--");    // 绘制参考路径
+        plt::plot(x_history, y_history, "r-");  // 绘制AGV的实际轨迹
+
+        // plt::scatter({initial_x(0)}, {initial_x(1)}, 20.0, {{"color", "green"}}); // 当前AGV位置
+        plt::scatter(std::vector<double>{initial_x(0)}, std::vector<double>{initial_x(1)}, 20.0, {{"color", "green"}});
+        plt::pause(0.0001);         // 暂停以更新图形
 
         if(lateral_and_index.second < trajectory.size() - 1){
             // count += 1;
@@ -58,6 +68,8 @@ int main(int argc, char const *argv[])
             finish_ = false;
         }
     }
+
+    plt::show();  // 显示最终结果
 
     return 0;
 }

@@ -37,7 +37,7 @@ std::vector<PathPoint> MyReferencePath::generateTrajectory(double x_start, doubl
     double distance = euclideanDistance(x_start, y_start, x_end, y_end);
 
     // 根据距离决定轨迹点数，假设每米10个离散点
-    int num_points = std::max(2, static_cast<int>(distance * 100));
+    int num_points = std::max(2, static_cast<int>(distance * 10));
 
     // 计算x和y的增量
     double dx = (x_end - x_start) / (num_points - 1);
@@ -59,7 +59,8 @@ std::vector<PathPoint> MyReferencePath::generateTrajectory(double x_start, doubl
         double velocity = calculateVelocity(curvature);
 
         // 将生成的点加入轨迹
-        path_.push_back({x, y, yaw, curvature, velocity});
+        std::cout << "yaw: " << yaw << "  curvature: " << curvature << "  velocity: " << velocity << std::endl;
+        path_.push_back({x, y, 0.785, curvature, velocity});
     }
 
     return path_;
