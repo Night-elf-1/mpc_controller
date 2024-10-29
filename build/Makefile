@@ -130,6 +130,19 @@ main/fast:
 .PHONY : main/fast
 
 #=============================================================================
+# Target rules for targets named mpc_speed_steel_
+
+# Build rule for target.
+mpc_speed_steel_: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 mpc_speed_steel_
+.PHONY : mpc_speed_steel_
+
+# fast build rule for target.
+mpc_speed_steel_/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mpc_speed_steel_.dir/build.make CMakeFiles/mpc_speed_steel_.dir/build
+.PHONY : mpc_speed_steel_/fast
+
+#=============================================================================
 # Target rules for targets named testdraw
 
 # Build rule for target.
@@ -141,6 +154,54 @@ testdraw: cmake_check_build_system
 testdraw/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testdraw.dir/build.make CMakeFiles/testdraw.dir/build
 .PHONY : testdraw/fast
+
+src/MPC_SPEED_STEEL_CONTROL/main.o: src/MPC_SPEED_STEEL_CONTROL/main.cpp.o
+.PHONY : src/MPC_SPEED_STEEL_CONTROL/main.o
+
+# target to build an object file
+src/MPC_SPEED_STEEL_CONTROL/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mpc_speed_steel_.dir/build.make CMakeFiles/mpc_speed_steel_.dir/src/MPC_SPEED_STEEL_CONTROL/main.cpp.o
+.PHONY : src/MPC_SPEED_STEEL_CONTROL/main.cpp.o
+
+src/MPC_SPEED_STEEL_CONTROL/main.i: src/MPC_SPEED_STEEL_CONTROL/main.cpp.i
+.PHONY : src/MPC_SPEED_STEEL_CONTROL/main.i
+
+# target to preprocess a source file
+src/MPC_SPEED_STEEL_CONTROL/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mpc_speed_steel_.dir/build.make CMakeFiles/mpc_speed_steel_.dir/src/MPC_SPEED_STEEL_CONTROL/main.cpp.i
+.PHONY : src/MPC_SPEED_STEEL_CONTROL/main.cpp.i
+
+src/MPC_SPEED_STEEL_CONTROL/main.s: src/MPC_SPEED_STEEL_CONTROL/main.cpp.s
+.PHONY : src/MPC_SPEED_STEEL_CONTROL/main.s
+
+# target to generate assembly for a file
+src/MPC_SPEED_STEEL_CONTROL/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mpc_speed_steel_.dir/build.make CMakeFiles/mpc_speed_steel_.dir/src/MPC_SPEED_STEEL_CONTROL/main.cpp.s
+.PHONY : src/MPC_SPEED_STEEL_CONTROL/main.cpp.s
+
+src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.o: src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.cpp.o
+.PHONY : src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.o
+
+# target to build an object file
+src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mpc_speed_steel_.dir/build.make CMakeFiles/mpc_speed_steel_.dir/src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.cpp.o
+.PHONY : src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.cpp.o
+
+src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.i: src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.cpp.i
+.PHONY : src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.i
+
+# target to preprocess a source file
+src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mpc_speed_steel_.dir/build.make CMakeFiles/mpc_speed_steel_.dir/src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.cpp.i
+.PHONY : src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.cpp.i
+
+src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.s: src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.cpp.s
+.PHONY : src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.s
+
+# target to generate assembly for a file
+src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mpc_speed_steel_.dir/build.make CMakeFiles/mpc_speed_steel_.dir/src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.cpp.s
+.PHONY : src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.cpp.s
 
 src/kinematic.o: src/kinematic.cpp.o
 .PHONY : src/kinematic.o
@@ -271,7 +332,14 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... main"
+	@echo "... mpc_speed_steel_"
 	@echo "... testdraw"
+	@echo "... src/MPC_SPEED_STEEL_CONTROL/main.o"
+	@echo "... src/MPC_SPEED_STEEL_CONTROL/main.i"
+	@echo "... src/MPC_SPEED_STEEL_CONTROL/main.s"
+	@echo "... src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.o"
+	@echo "... src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.i"
+	@echo "... src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.s"
 	@echo "... src/kinematic.o"
 	@echo "... src/kinematic.i"
 	@echo "... src/kinematic.s"

@@ -29,9 +29,14 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 # 指定源文件
 set(testmatplotlib src/test_matplotlib/testmatplotlib.cpp)
+set(mpc_speed_steel 
+    src/MPC_SPEED_STEEL_CONTROL/main.cpp
+    src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.cpp
+)
 
 # 添加源码目录
 add_executable(main src/main.cpp src/kinematic.cpp src/mpc_controller.cpp src/referencePath.cpp)
+add_executable(mpc_speed_steel_ ${mpc_speed_steel})
 add_executable(testdraw ${testmatplotlib})
 
 # 链接依赖库
@@ -46,6 +51,16 @@ target_link_libraries(main
 )
 
 target_link_libraries(testdraw
+    ${PYTHON_LIBRARIES}
+    python3.10.so
+    pthread
+    dl
+)
+
+target_link_libraries(mpc_speed_steel_
+    Eigen3::Eigen
+    osqp::osqp
+    OsqpEigen::OsqpEigen
     ${PYTHON_LIBRARIES}
     python3.10.so
     pthread

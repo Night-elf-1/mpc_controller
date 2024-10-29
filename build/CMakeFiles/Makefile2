@@ -64,6 +64,7 @@ CMAKE_BINARY_DIR = /home/hamster/mycode/mpc_controller/build
 
 # The main recursive "all" target.
 all: CMakeFiles/main.dir/all
+all: CMakeFiles/mpc_speed_steel_.dir/all
 all: CMakeFiles/testdraw.dir/all
 .PHONY : all
 
@@ -73,6 +74,7 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/main.dir/clean
+clean: CMakeFiles/mpc_speed_steel_.dir/clean
 clean: CMakeFiles/testdraw.dir/clean
 .PHONY : clean
 
@@ -103,13 +105,39 @@ CMakeFiles/main.dir/clean:
 .PHONY : CMakeFiles/main.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/mpc_speed_steel_.dir
+
+# All Build rule for target.
+CMakeFiles/mpc_speed_steel_.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mpc_speed_steel_.dir/build.make CMakeFiles/mpc_speed_steel_.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mpc_speed_steel_.dir/build.make CMakeFiles/mpc_speed_steel_.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/hamster/mycode/mpc_controller/build/CMakeFiles --progress-num=6,7,8 "Built target mpc_speed_steel_"
+.PHONY : CMakeFiles/mpc_speed_steel_.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/mpc_speed_steel_.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hamster/mycode/mpc_controller/build/CMakeFiles 3
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/mpc_speed_steel_.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hamster/mycode/mpc_controller/build/CMakeFiles 0
+.PHONY : CMakeFiles/mpc_speed_steel_.dir/rule
+
+# Convenience name for target.
+mpc_speed_steel_: CMakeFiles/mpc_speed_steel_.dir/rule
+.PHONY : mpc_speed_steel_
+
+# clean rule for target.
+CMakeFiles/mpc_speed_steel_.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mpc_speed_steel_.dir/build.make CMakeFiles/mpc_speed_steel_.dir/clean
+.PHONY : CMakeFiles/mpc_speed_steel_.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/testdraw.dir
 
 # All Build rule for target.
 CMakeFiles/testdraw.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testdraw.dir/build.make CMakeFiles/testdraw.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testdraw.dir/build.make CMakeFiles/testdraw.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/hamster/mycode/mpc_controller/build/CMakeFiles --progress-num=6,7 "Built target testdraw"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/hamster/mycode/mpc_controller/build/CMakeFiles --progress-num=9,10 "Built target testdraw"
 .PHONY : CMakeFiles/testdraw.dir/all
 
 # Build rule for subdir invocation for target.

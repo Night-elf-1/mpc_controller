@@ -63,6 +63,40 @@ std::vector<PathPoint> MyReferencePath::generateTrajectory(double x_start, doubl
         path_.push_back({x, y, 0.785, curvature, velocity});
     }
 
+    // vector<vector<double>> refer_path = vector<vector<double>>(1000, vector<double>(4));
+    // vector<double> refer_x, refer_y;
+    // // 生成参考轨迹
+    // for (int i = 0; i < 1000; i++) {
+    //     refer_path[i][0] = 0.1 * i;                             // refer_path[i][0] 是轨迹点的 x 坐标，refer_path[i][1] 是根据 sin 和 cos 函数计算出的 y 坐标
+    //     refer_path[i][1] = 2 * sin(refer_path[i][0] / 3.0) + 2.5 * cos(refer_path[i][0] / 2.0);         // 生成了一个类似于波浪形的轨迹
+
+    //     refer_x.push_back(refer_path[i][0]);
+    //     refer_y.push_back(refer_path[i][1]);
+    // }
+    // double dx,dy,ddx,ddy;
+    // for(int i=0;i<refer_path.size();i++){
+    //     if (i==0){
+    //          dx = refer_path[i+1][0] - refer_path[i][0];
+    //          dy = refer_path[i+1][1] - refer_path[i][1];
+    //          ddx = refer_path[2][0] + refer_path[0][0] - 2*refer_path[1][0];
+    //          ddy = refer_path[2][1] + refer_path[0][1] - 2*refer_path[1][1];
+    //     }else if(i==refer_path.size()-1){
+    //          dx = refer_path[i][0] - refer_path[i-1][0];
+    //          dy = refer_path[i][1] - refer_path[i-1][1];
+    //          ddx = refer_path[i][0] + refer_path[i-2][0] - 2*refer_path[i-1][0];
+    //          ddy = refer_path[i][1] + refer_path[i-2][1] - 2*refer_path[i-1][1];
+    //     }else{
+    //          dx = refer_path[i+1][0] - refer_path[i][0];
+    //          dy = refer_path[i+1][1] - refer_path[i][1];
+    //          ddx = refer_path[i+1][0] + refer_path[i-1][0] - 2*refer_path[i][0];
+    //          ddy = refer_path[i+1][1] + refer_path[i-1][1] - 2*refer_path[i][1];
+    //     }
+    //     refer_path[i][2] = atan2(dy,dx);                        //yaw
+    //     //计算曲率:设曲线r(t) =(x(t),y(t)),则曲率k=(x'y" - x"y')/((x')^2 + (y')^2)^(3/2).
+    //     //参考：https://blog.csdn.net/weixin_46627433/article/details/123403726
+    //     refer_path[i][3]= (ddy * dx - ddx * dy) / pow((dx * dx + dy * dy), 3 / 2) ;             // 曲率k计算
+    // }
+
     return path_;
 }
 
