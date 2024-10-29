@@ -1,7 +1,7 @@
 #include "mpc_controller.h"
-// #include "matplotlibcpp.h"
+#include "matplotlibcpp.h"
 
-// namespace plt = matplotlibcpp;
+namespace plt = matplotlibcpp;
 
 int main(int argc, char const *argv[])
 {

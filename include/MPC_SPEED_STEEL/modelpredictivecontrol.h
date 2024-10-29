@@ -9,6 +9,7 @@
 #include "OsqpEigen/OsqpEigen.h"
 #include "eigen3/Eigen/Core"
 #include "common.h"
+#include "kinematic_mpc.h"
 
 #define YAW_P2P(angle) fmod(fmod((angle)+M_PI, 2*M_PI)-2*M_PI, 2*M_PI)+M_PI
 
@@ -30,6 +31,8 @@ class MPC_controller{
         ~MPC_controller(){};
 
         vector<double> calc_speed_profile(vector<double> rx, vector<double> ry, vector<double> ryaw, double target_speed);
+
+
 };
 
 
