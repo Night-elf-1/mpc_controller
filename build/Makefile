@@ -155,6 +155,30 @@ testdraw/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testdraw.dir/build.make CMakeFiles/testdraw.dir/build
 .PHONY : testdraw/fast
 
+src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.o: src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.cpp.o
+.PHONY : src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.o
+
+# target to build an object file
+src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mpc_speed_steel_.dir/build.make CMakeFiles/mpc_speed_steel_.dir/src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.cpp.o
+.PHONY : src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.cpp.o
+
+src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.i: src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.cpp.i
+.PHONY : src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.i
+
+# target to preprocess a source file
+src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mpc_speed_steel_.dir/build.make CMakeFiles/mpc_speed_steel_.dir/src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.cpp.i
+.PHONY : src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.cpp.i
+
+src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.s: src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.cpp.s
+.PHONY : src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.s
+
+# target to generate assembly for a file
+src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/mpc_speed_steel_.dir/build.make CMakeFiles/mpc_speed_steel_.dir/src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.cpp.s
+.PHONY : src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.cpp.s
+
 src/MPC_SPEED_STEEL_CONTROL/main.o: src/MPC_SPEED_STEEL_CONTROL/main.cpp.o
 .PHONY : src/MPC_SPEED_STEEL_CONTROL/main.o
 
@@ -334,6 +358,9 @@ help:
 	@echo "... main"
 	@echo "... mpc_speed_steel_"
 	@echo "... testdraw"
+	@echo "... src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.o"
+	@echo "... src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.i"
+	@echo "... src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.s"
 	@echo "... src/MPC_SPEED_STEEL_CONTROL/main.o"
 	@echo "... src/MPC_SPEED_STEEL_CONTROL/main.i"
 	@echo "... src/MPC_SPEED_STEEL_CONTROL/main.s"

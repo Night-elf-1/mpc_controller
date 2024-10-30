@@ -32,6 +32,7 @@ set(testmatplotlib src/test_matplotlib/testmatplotlib.cpp)
 set(mpc_speed_steel 
     src/MPC_SPEED_STEEL_CONTROL/main.cpp
     src/MPC_SPEED_STEEL_CONTROL/modelpredictivecontrol.cpp
+    src/MPC_SPEED_STEEL_CONTROL/kinematic_mpc.cpp
 )
 
 # 添加源码目录

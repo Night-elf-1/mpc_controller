@@ -12,7 +12,10 @@
 #include "kinematic_mpc.h"
 
 #define YAW_P2P(angle) fmod(fmod((angle)+M_PI, 2*M_PI)-2*M_PI, 2*M_PI)+M_PI
-
+static inline bool finish = true;
+static inline int N_IND_SEARCH = 10;
+static inline int target_ind = 0;
+static inline double goal_dis = 5.0;
 
 class MPC_controller{
     public:
@@ -32,7 +35,13 @@ class MPC_controller{
 
         vector<double> calc_speed_profile(vector<double> rx, vector<double> ry, vector<double> ryaw, double target_speed);
 
+        std::tuple<int, double> calc_nearest_index(double current_X, double current_y, vector<double> cx, vector<double> cy, vector<double> cyaw, int pind);
 
+        void smooth_yaw(vector<double>& cyaw);
+
+        std::tuple<int, double> calc_ref_trajectory(double current_X, double current_y, vector<double> cx, vector<double> cy, vector<double> cyaw, int& target_ind);
+
+        std::tuple<double, double> mpc_solve(vector<double>& cx, vector<double>& cy, vector<double>& cyaw, vector<double>& ck, vector<double>& speed, Eigen::Vector3d inital_x, int min_index, double min_errors, KinematicModel_MPC agv_model);
 };
 
 

@@ -1,10 +1,10 @@
-#include "kinematic_mpc.h"
+#include "../../include/MPC_SPEED_STEEL/kinematic_mpc.h"
 
 void KinematicModel_MPC::updatestate(double accel, double delta_f){
     x += v * cos(yaw) * dt;
     y += v * sin(yaw) * dt;
-    yaw += v * tan(delta_f) * dt;
-    v += v + accel * dt;
+    yaw += ((v * tan(delta_f)) / L) * dt;
+    v += accel * dt;
 }
 
 std::tuple<double, double, double, double> KinematicModel_MPC::getstate(){
