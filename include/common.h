@@ -9,8 +9,8 @@ using namespace std;
 
 struct parameters{
     int L = 3.7;
-    int NX = 3, NU = 2, NP = 100, NC = 20;
-    double dt = 1, row = 10;
+    int NX = 3, NU = 2, NP = 60, NC = 5;
+    double dt = 0.5, row = 10;
 };
 
 struct VehicleState

@@ -23,7 +23,7 @@ int main(int argc, char const *argv[])
         rcurvature.push_back(csp_obj.calc_curvature(i));
         rs.push_back(i);
     }
-    double target_speed = 2.0;
+    double target_speed = 1.5;
     
     parameters param;
     MPC_controller mpc(param.NX, param.NU, param.NP, param.NC);
@@ -33,7 +33,7 @@ int main(int argc, char const *argv[])
     Eigen::Vector3d initial_x;                                        // 初始化agv初始状态 x y yaw
     initial_x << 10.0, 0.0, 0.0;
 
-    KinematicModel_MPC agv(initial_x(0), initial_x(1), initial_x(2), 2.0, 3.7, 1);
+    KinematicModel_MPC agv(initial_x(0), initial_x(1), initial_x(2), 1.5, 3.7, 0.5);
     
     std::vector<double> x_history, y_history;
     std::cout << agv.x << " " << agv.y << std::endl;
