@@ -23,7 +23,7 @@ int main(int argc, char const *argv[])
         rcurvature.push_back(csp_obj.calc_curvature(i));
         rs.push_back(i);
     }
-    double target_speed = 0.75;
+    double target_speed = 2.0;
     
     parameters param;
     MPC_controller mpc(param.NX, param.NU, param.NP, param.NC);
@@ -33,7 +33,7 @@ int main(int argc, char const *argv[])
     Eigen::Vector3d initial_x;                                        // 初始化agv初始状态 x y yaw
     initial_x << 10.0, 0.0, 0.0;
 
-    KinematicModel_MPC agv(initial_x(0), initial_x(1), initial_x(2), 0.01, 3.7, 0.1);
+    KinematicModel_MPC agv(initial_x(0), initial_x(1), initial_x(2), 2.0, 3.7, 1);
     
     std::vector<double> x_history, y_history;
     std::cout << agv.x << " " << agv.y << std::endl;
@@ -44,17 +44,20 @@ int main(int argc, char const *argv[])
 
     // mpc.calc_nearest_index(initial_x(0), initial_x(1), r_x, r_y, ryaw, target_ind);
     mpc.smooth_yaw(ryaw);
-
+    // int count = 0;
     while ( finish )
     {
         auto [min_index, min_e] = mpc.calc_ref_trajectory(initial_x(0), initial_x(1), r_x, r_y, ryaw, target_ind);
+        std::cout << "min_index = " << min_index << "  min_e = " << min_e << std::endl;
 
         auto [v_real, delta_real] = mpc.mpc_solve(r_x, r_y, ryaw, speed_profile, rcurvature, initial_x, min_index, min_e, agv);
+        // std::cout << "delta_real = " << delta_real << "  v_real = " << v_real << std::endl;
 
         agv.updatestate(v_real, delta_real);
 
         auto [temp_x, temp_y, temp_yaw, temp_v] = agv.getstate();
         std::cout << "x = " << temp_x << "  y = " << temp_y << std::endl;
+        //std::cout << "temp_v = " << temp_v << std::endl;
         initial_x << temp_x, temp_y, temp_yaw;
         x_history.push_back(temp_x);
         y_history.push_back(temp_y);
@@ -64,13 +67,14 @@ int main(int argc, char const *argv[])
         plt::plot(x_history, y_history, "r-");  // 绘制AGV的实际轨迹
 
         plt::scatter(std::vector<double>{initial_x(0)}, std::vector<double>{initial_x(1)}, 20.0, {{"color", "green"}});
-        plt::pause(0.001);         // 暂停以更新图形
+        plt::pause(0.1);         // 暂停以更新图形
 
         if ( min_index >= r_x.size() - 15 )
         {
             finish = false;
         }
         
+        // count += 1;
     }
     plt::show();  // 显示最终结果
 

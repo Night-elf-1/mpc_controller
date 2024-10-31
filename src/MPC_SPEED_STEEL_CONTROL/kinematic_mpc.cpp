@@ -4,7 +4,7 @@ void KinematicModel_MPC::updatestate(double accel, double delta_f){
     x += v * cos(yaw) * dt;
     y += v * sin(yaw) * dt;
     yaw += ((v * tan(delta_f)) / L) * dt;
-    v += accel * dt;
+    //v += accel * dt;
 }
 
 std::tuple<double, double, double, double> KinematicModel_MPC::getstate(){
