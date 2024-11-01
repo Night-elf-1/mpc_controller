@@ -1,4 +1,5 @@
 #include "../../include/MPC_SPEED_STEEL/modelpredictivecontrol.h"
+#include <chrono>
 #include "../../include/matplotlibcpp.h"
 
 namespace plt = matplotlibcpp;
@@ -39,7 +40,7 @@ int main(int argc, char const *argv[])
     std::cout << agv.x << " " << agv.y << std::endl;
     
     plt::figure_size(800, 600);      // 设置窗口大小
-    plt::plot(r_x, r_y, "b--");      // 绘制参考路径
+    // plt::plot(r_x, r_y, "b--");      // 绘制参考路径
     // plt::scatter(std::vector<double>{initial_x(0)}, std::vector<double>{initial_x(1)}, 20.0, {{"color", "green"}});
 
     // mpc.calc_nearest_index(initial_x(0), initial_x(1), r_x, r_y, ryaw, target_ind);
@@ -47,6 +48,8 @@ int main(int argc, char const *argv[])
     // int count = 0;
     while ( finish )
     {
+        // auto start = std::chrono::high_resolution_clock::now();
+
         auto [min_index, min_e] = mpc.calc_ref_trajectory(initial_x(0), initial_x(1), r_x, r_y, ryaw, target_ind);
         std::cout << "min_index = " << min_index << "  min_e = " << min_e << std::endl;
 
@@ -56,7 +59,7 @@ int main(int argc, char const *argv[])
         agv.updatestate(v_real, delta_real);
 
         auto [temp_x, temp_y, temp_yaw, temp_v] = agv.getstate();
-        std::cout << "x = " << temp_x << "  y = " << temp_y << std::endl;
+        // std::cout << "x = " << temp_x << "  y = " << temp_y << std::endl;
         //std::cout << "temp_v = " << temp_v << std::endl;
         initial_x << temp_x, temp_y, temp_yaw;
         x_history.push_back(temp_x);
@@ -67,13 +70,16 @@ int main(int argc, char const *argv[])
         plt::plot(x_history, y_history, "r-");  // 绘制AGV的实际轨迹
 
         plt::scatter(std::vector<double>{initial_x(0)}, std::vector<double>{initial_x(1)}, 20.0, {{"color", "green"}});
-        plt::pause(0.1);         // 暂停以更新图形
+        plt::pause(0.01);         // 暂停以更新图形
 
         if ( min_index >= r_x.size() - 15 )
         {
             finish = false;
         }
         
+        // auto end = std::chrono::high_resolution_clock::now();
+        // auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        // std::cout << "程序运行时间: " << duration.count() << " 毫秒" << std::endl;
         // count += 1;
     }
     plt::show();  // 显示最终结果

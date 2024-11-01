@@ -86,10 +86,10 @@ std::tuple<int, double> MPC_controller::calc_ref_trajectory(double current_x, do
 
 std::tuple<double, double> MPC_controller::mpc_solve(vector<double>& cx, vector<double>& cy, vector<double>& cyaw, vector<double>& speed, vector<double>& ck, Eigen::Vector3d inital_x, int min_index, double min_errors, KinematicModel_MPC agv_model){
     const double row = 10;
-    Eigen::Vector2d u_min(-0.01,-0.1570796);
-    Eigen::Vector2d u_max(0.01,0.1570796);
-    Eigen::Vector2d delta_umin(-0.05, -0.64);
-    Eigen::Vector2d delta_umax(0.05, 0.64);
+    Eigen::Vector2d u_min(-0.001,-0.1744444);
+    Eigen::Vector2d u_max(0.001,0.1744444);
+    Eigen::Vector2d delta_umin(-0.001, -0.64);
+    Eigen::Vector2d delta_umax(0.001, 0.64);
     // std::cout << "u_min = " << u_min 
     //           << "  u_max = " << u_max 
     //           << "  delta_umin = " << delta_umin 
