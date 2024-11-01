@@ -1,5 +1,17 @@
 #include "../../include/MPC_SPEED_STEEL/modelpredictivecontrol.h"
 
+std::vector<double> MPC_controller::calculateReferenceSpeeds(const std::vector<double>& curvatures, const double& max_speed) {
+    std::vector<double> referenceSpeeds;
+    // double max_speed = 2.0; // 最大速度设为2.0 m/s
+    for (double k : curvatures) {
+        // 假设曲率半径与速度成线性关系，曲率越大，速度越低
+        double speed = max_speed * (1 - 2.5*k); // 假设最大曲率对应于2π的曲率半径
+        speed = std::max(1.0, std::min(max_speed, speed)); // 限制速度在0到max_speed之间
+        referenceSpeeds.push_back(speed);
+    }
+    return referenceSpeeds;
+}
+
 vector<double> MPC_controller::calc_speed_profile(vector<double> rx, vector<double> ry, vector<double> ryaw, double target_speed){
     vector<double> speed_profile(rx.size(), target_speed);
 
@@ -43,17 +55,6 @@ std::tuple<int, double> MPC_controller::calc_nearest_index(double current_x, dou
         
     }
     
-    // for(int i=pind; i<pind+N_IND_SEARCH; i++){          // N_IND_SEARCH 定义为10，开始遍历从索引 pind 开始的 N_IND_SEARCH 个轨迹点，逐个计算它们与小车当前状态的位置距离
-    //     double idx = cx[i] - current_x;
-    //     double idy = cy[i] - current_y;
-    //     double d_e = std::sqrt(idx*idx + idy*idy);
-
-    //     if (d_e<mind){
-    //         mind = d_e;
-    //         ind = i;
-    //     }
-    // }
-
     return std::make_tuple(ind, mind);
 }
 
@@ -82,6 +83,21 @@ std::tuple<int, double> MPC_controller::calc_ref_trajectory(double current_x, do
     // target_ind = ind;
 
     return std::make_tuple(ind, d_e);
+}
+
+std::tuple<double, int, int> MPC_controller::calculate_distance(const double& end_x, const double& end_y, const double& current_x, const double& current_y, const double& r_yaw){
+    // AX - BY + C = 0;
+    double A = tan(r_yaw);
+    double B = -1;
+    double C = (current_y - tan(r_yaw)*current_x);
+
+    // 计算垂足坐标
+    double x_ = (B * B * end_x - A * B * end_y - A * C) / (A * A + B * B);
+    double y_ = (-A * B * end_x + A * A * end_y - B * C) / (A * A + B * B);
+
+    double min_distance = std::abs(A*end_x + B*end_y + C) / std::sqrt(A*A + B*B);
+
+    return std::make_tuple(min_distance, x_, y_);
 }
 
 std::tuple<double, double> MPC_controller::mpc_solve(vector<double>& cx, vector<double>& cy, vector<double>& cyaw, vector<double>& speed, vector<double>& ck, Eigen::Vector3d inital_x, int min_index, double min_errors, KinematicModel_MPC agv_model){

@@ -33,6 +33,8 @@ class MPC_controller{
         MPC_controller(int nx, int nu, int np, int nc) : NX(nx), NU(nu), NP(np), NC(nc), R(Eigen::MatrixXd::Identity(nu, nu)), RB(Eigen::MatrixXd::Identity(nc * nu, nc * nu)), Q(Eigen::MatrixXd::Identity(nx, nx)), QB(100*Eigen::MatrixXd::Identity(np * nx, np * nx)), U(Eigen::VectorXd::Constant(nu, 0.01)) {};
         ~MPC_controller(){};
 
+        std::vector<double> calculateReferenceSpeeds(const std::vector<double>& curvatures, const double& max_speed);
+
         vector<double> calc_speed_profile(vector<double> rx, vector<double> ry, vector<double> ryaw, double target_speed);
 
         std::tuple<int, double> calc_nearest_index(double current_X, double current_y, vector<double> cx, vector<double> cy, vector<double> cyaw, int pind);
@@ -42,6 +44,8 @@ class MPC_controller{
         std::tuple<int, double> calc_ref_trajectory(double current_X, double current_y, vector<double> cx, vector<double> cy, vector<double> cyaw, int& target_ind);
 
         std::tuple<double, double> mpc_solve(vector<double>& cx, vector<double>& cy, vector<double>& cyaw, vector<double>& ck, vector<double>& speed, Eigen::Vector3d inital_x, int min_index, double min_errors, KinematicModel_MPC agv_model);
+
+        std::tuple<double, int, int> calculate_distance(const double& end_x, const double& end_y, const double& current_x, const double& current_y, const double& r_yaw);
 };
 
 
