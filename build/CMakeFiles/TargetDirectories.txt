@@ -1,6 +1,0 @@
-/home/hamster/mycode/mpc_controller/build/CMakeFiles/edit_cache.dir
-/home/hamster/mycode/mpc_controller/build/CMakeFiles/rebuild_cache.dir
-/home/hamster/mycode/mpc_controller/build/src/CMakeFiles/CppAD_demo.dir
-/home/hamster/mycode/mpc_controller/build/src/CMakeFiles/cppad_ipopt_demo.dir
-/home/hamster/mycode/mpc_controller/build/src/CMakeFiles/edit_cache.dir
-/home/hamster/mycode/mpc_controller/build/src/CMakeFiles/rebuild_cache.dir
