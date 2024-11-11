@@ -1,5 +1,0 @@
-/home/hamster/mycode/mpc_controller/build/CMakeFiles/main.dir
-/home/hamster/mycode/mpc_controller/build/CMakeFiles/mpc_speed_steel_.dir
-/home/hamster/mycode/mpc_controller/build/CMakeFiles/testdraw.dir
-/home/hamster/mycode/mpc_controller/build/CMakeFiles/edit_cache.dir
-/home/hamster/mycode/mpc_controller/build/CMakeFiles/rebuild_cache.dir
